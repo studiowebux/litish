@@ -1,28 +1,28 @@
-# Isolated Development Environment for macOS
+# Litish
 
-Nix-based dev shells on a dedicated encrypted APFS volume. All tools, caches, configs, and data stay off `~/` and `~/Library/`.
+**Lite-ish** — a development environment that aims to be lightweight but still packs everything you need. Isolated, reproducible, and entirely off your home directory.
 
-## Step 1 — Install Nix
+## Why
+
+macOS dev tools scatter configs, caches, and state across `~/`, `~/Library/`, and beyond.
+
+Litish puts everything on a dedicated encrypted APFS volume managed by Nix. Nothing touches your home directory. Every tool is pinned. Every telemetry flag is killed. You get reproducible shells you can enter from anywhere with a single command.
+
+## Prerequisites
+
+Install [Nix](https://nixos.org/download):
 
 ```bash
 curl -L https://nixos.org/nix/install | sh
 ```
 
-Follow the prompts. This installs the Nix package manager and the nix daemon.
-
-Restart your terminal after installation.
-
-## Step 2 — Configure Nix
-
-Edit `/etc/nix/nix.conf` (or create `~/.config/nix/nix.conf`):
+Add to `/etc/nix/nix.conf` (or `~/.config/nix/nix.conf`):
 
 ```
 experimental-features = nix-command flakes
 trusted-users = root <your-username>
 auto-optimise-store = true
 ```
-
-Replace `<your-username>` with your macOS username.
 
 Restart the daemon:
 
@@ -31,150 +31,160 @@ sudo launchctl stop org.nixos.nix-daemon
 sudo launchctl start org.nixos.nix-daemon
 ```
 
-## Step 3 — Create an encrypted APFS volume
+## Setup
 
-Open Disk Utility or use the CLI. First, find your APFS container:
-
-```bash
-diskutil list
-```
-
-Look for your main APFS container (e.g. `disk5`). Then create the volume:
+Create an encrypted APFS volume:
 
 ```bash
+diskutil list                                                # find your APFS container (e.g. disk5)
 diskutil apfs addVolume disk5 APFS "studiowebux" -passphrase
 ```
 
-You'll be prompted to set a password. The volume mounts at `/Volumes/studiowebux`.
-
-## Step 4 — Set up the volume
+Clone and install:
 
 ```bash
-mkdir -p "/Volumes/studiowebux/Development"
-```
-
-## Step 5 — Install the `litish` CLI
-
-Copy the wrapper script to somewhere on your PATH:
-
-```bash
-cp litish /usr/local/bin/litish
-# or
-cp litish /Volumes/studiowebux/Development/.local/bin/litish
-export PATH="/Volumes/studiowebux/Development/.local/bin:$PATH"
-```
-
-Make sure it's executable:
-
-```bash
+git clone https://github.com/studiowebux/litish.git /Volumes/studiowebux/Projects/litish
+cp /Volumes/studiowebux/Projects/litish/litish /usr/local/bin/litish
 chmod +x /usr/local/bin/litish
 ```
 
-## Step 6 — Set up git config
-
-Create a portable `.gitconfig` that stays on the volume:
+Set up a portable git config on the volume:
 
 ```bash
-cat > "/Volumes/studiowebux/Development/.gitconfig" << 'EOF'
+mkdir -p /Volumes/studiowebux/Development
+cat > /Volumes/studiowebux/Development/.gitconfig << 'EOF'
 [user]
     name = Your Name
     email = your@email.com
 EOF
 ```
 
-## Step 7 — Update the `devDir` path (if different)
+### Customizing paths
 
-If your volume is named differently, edit `flake.nix` line 14:
+If your volume path differs, update two places:
 
-```nix
-devDir = "/Volumes/Studio\\ Webux/Development";
-```
+1. `DEV_DIR` in the `litish` script
+2. `devDir` on line 14 of `flake.nix`
 
-Change it to match your volume path. The `\\` is a Nix-escaped backslash for the shell space.
-
-## Step 8 — Enter a shell
-
-From anywhere:
-
-```bash
-litish go
-```
-
-The first run downloads and builds everything — this takes a while. Subsequent runs are instant thanks to `--profile` caching.
+Both must match.
 
 ## Usage
+
+From anywhere:
 
 ```bash
 litish          # Enter default shell (everything)
 litish go       # Go development
 litish deno     # Deno/TypeScript
-litish hx       # General editing — all LSPs
+litish hx       # General editing with all LSPs
 litish ops      # Infrastructure — terraform, kubectl, flux, helm, ansible
-litish game     # Game dev — C# (omnisharp), Odin (ols), Lua
-litish ai       # AI/ML — Python (pyright, ruff)
+litish game     # Game dev — C#, Odin, Lua
+litish ai       # AI/ML — Python with pyright and ruff
 litish net      # Network analysis — nmap, mtr, tcpdump, etc.
-litish update   # Update flake inputs (nixpkgs)
+litish update   # Update flake inputs
 litish show     # Show available shells
 litish check    # Validate the flake
 litish gc       # Garbage collect old nix store paths
 ```
 
-Or use the Makefile directly (from the repo or Development directory):
+The first run downloads and builds everything. Subsequent runs are instant thanks to `--profile` caching.
 
-```bash
-make go
-```
+## Shells
+
+| Shell | Purpose | Key tools |
+|-------|---------|-----------|
+| `all` | Everything (default) | All tools below combined |
+| `hx` | General editing | Helix + all LSP servers |
+| `deno` | TypeScript/JavaScript | Deno, TypeScript LSP |
+| `go` | Go development | Go, gopls, staticcheck, gosec, govulncheck |
+| `ops` | Infrastructure | Terraform, kubectl, flux, helm, ansible, sshtui |
+| `game` | Game development | OmniSharp (C#), ols (Odin), lua-language-server |
+| `ai` | AI/ML | Pyright, ruff |
+| `net` | Network analysis | nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat, bandwhich, aria2, sshtui, proxytui |
+
+## Packages
+
+### Custom packages (`pkgs/`)
+
+| Package | Version | Description |
+|---------|---------|-------------|
+| [cerveau](https://github.com/studiowebux/cerveau.dev) | 1.4.3 | Brain manager for Claude Code |
+| [claude](https://claude.ai/code) | 2.1.86 | Claude Code CLI |
+| [deno](https://deno.land) | 2.7.7 | JavaScript/TypeScript runtime |
+| [flux](https://fluxcd.io) | 2.8.3 | GitOps for Kubernetes |
+| [gh](https://cli.github.com) | 2.88.1 | GitHub CLI |
+| [go](https://go.dev) | 1.26.1 | Go programming language |
+| [gopls](https://pkg.go.dev/golang.org/x/tools/gopls) | 0.21.1 | Go language server |
+| [helix](https://helix-editor.com) | 25.07.1 | Terminal text editor |
+| [helm](https://helm.sh) | 4.1.3 | Kubernetes package manager |
+| [helm-ls](https://github.com/mrjosh/helm-ls) | 0.5.4 | Helm language server |
+| [kubectl](https://kubernetes.io/docs/reference/kubectl) | 1.35.3 | Kubernetes CLI |
+| [lspmcp](https://github.com/studiowebux/lspmcp) | 0.1.0 | LSP to MCP bridge |
+| [lua-language-server](https://github.com/LuaLS/lua-language-server) | 3.17.1 | Lua language server |
+| [minimaldoc](https://github.com/studiowebux/minimaldoc) | 1.6.0 | Documentation generator |
+| [ols](https://github.com/DanielGaworworski/ols) | dev-2026-03 | Odin language server |
+| [omnisharp](https://github.com/OmniSharp/omnisharp-roslyn) | 1.39.15 | C# language server |
+| [proxytui](https://github.com/studiowebux/proxytui) | 0.2.0 | TUI proxy manager |
+| [restcli](https://github.com/studiowebux/restcli) | 0.0.41 | REST API client TUI |
+| [sshtui](https://github.com/studiowebux/sshtui) | 0.0.3 | SSH connection manager TUI |
+| [terraform](https://www.terraform.io) | 1.14.8 | Infrastructure as code |
+| [terraform-ls](https://github.com/hashicorp/terraform-ls) | 0.38.6 | Terraform language server |
+| [timeago](https://github.com/studiowebux/timeago) | 1.0.2 | Timestamp converter |
+
+### From nixpkgs
+
+git, zsh, jq, nil (Nix LSP), yaml-language-server, bash-language-server, prettier, vscode-langservers-extracted (JSON/HTML/CSS LSP), typescript-language-server, pyright, ruff, dockerfile-language-server, ansible, nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat, openssl, bandwhich, aria2
+
+## How it works
+
+- **No home directory pollution** — all XDG dirs, caches, history, and tool configs are redirected to the volume
+- **Telemetry disabled** — every known telemetry env var is set to off
+- **Pinned versions** — tools are fetched as specific versions in `pkgs/*.nix` with locked hashes
+- **Encrypted at rest** — the APFS volume is FileVault encrypted
+- **Nix store is the only thing on the host** — `/nix/store` holds the immutable packages, everything else is on the volume
+- **Run from anywhere** — the `litish` CLI wraps `nix develop`, no need to `cd` anywhere
+
+## Updating a tool version
+
+1. Find the new release URL for darwin-arm64
+2. Get the hash: `nix-prefetch-url [--unpack] <url>`
+3. Convert: `nix hash to-sri --type sha256 <hash>`
+4. Update version and hash in `pkgs/<tool>.nix`
+5. Push to GitHub
+6. Run `litish <shell>` to verify
 
 ## Regenerate completions
-
-Zsh completions are cached per shell. To force regeneration:
 
 ```bash
 rm -rf /Volumes/studiowebux/Development/.cache/zsh-completions/
 ```
 
-## How it works
+## Related projects
 
-- **No home directory pollution** — all XDG dirs, caches, history, and tool configs are redirected to the volume via env vars in `flake.nix`
-- **Telemetry disabled** — every known telemetry env var is set to off
-- **Pinned versions** — tools are fetched as specific versions in `pkgs/*.nix` with locked hashes
-- **Encrypted at rest** — the APFS volume is FileVault encrypted
-- **Nix store is the only thing on the host** — `/nix/store` holds the immutable packages, everything else is on the volume
-- **Run from anywhere** — the `litish` CLI wraps `nix develop` so you don't need to be in any specific directory
+- [cerveau](https://github.com/studiowebux/cerveau.dev) — Brain manager for Claude Code
+- [lspmcp](https://github.com/studiowebux/lspmcp) — LSP to MCP bridge server
+- [sshtui](https://github.com/studiowebux/sshtui) — SSH connection manager TUI
+- [proxytui](https://github.com/studiowebux/proxytui) — TUI proxy manager
+- [restcli](https://github.com/studiowebux/restcli) — REST API client TUI
+- [minimaldoc](https://github.com/studiowebux/minimaldoc) — Documentation generator
+- [timeago](https://github.com/studiowebux/timeago) — Timestamp converter
 
-## File tree
+## Contributing
 
-```
-/Volumes/studiowebux/Development/
-├── .cache/                  # Completions, go-build, npm, helm, ruff
-├── .claude/                 # Claude Code config
-├── .config/                 # XDG config (helix, go, helm)
-├── .data/                   # XDG data (helm)
-├── .state/                  # XDG state
-├── .deno/                   # Deno cache
-├── .dev-profiles/           # Nix dev shell profile cache
-├── .gitconfig               # Portable git config
-├── .kube/                   # Kubernetes config + cache
-├── .terraform/              # Terraform data, plugins, logs
-├── .ansible/                # Ansible home
-├── .omnisharp/              # OmniSharp config
-├── .zsh_history             # Shell history (shared across shells)
-├── cerveau/                 # Cerveau app data
-├── go/                      # GOPATH
-└── gomodcache/              # Go module cache
-```
+Contributions are welcome. Open an issue or submit a pull request.
 
-## Customizing
+## Links
 
-The `pkgs/` directory contains my own tools (cerveau, sshtui, restcli, etc.) — you don't need them. Remove what you don't use and add your own. Creating a package is straightforward: copy any existing `pkgs/*.nix` file, change the URL/version/hash, and wire it into `flake.nix`. The whole point is to make it yours.
+- [Website](https://studiowebux.com)
+- [Discord](https://discord.gg/BG5Erm9fNv)
+- [GitHub](https://github.com/studiowebux)
 
-You can also use packages directly from the official nixpkgs repository instead of writing custom derivations. Search available packages at [search.nixos.org](https://search.nixos.org/packages) and add them as `pkgs.<package-name>` in your shell definition. For example, `pkgs.jq`, `pkgs.git`, `pkgs.yaml-language-server` are all from nixpkgs. Custom `pkgs/*.nix` files are only needed when you want a specific version or a binary not available in nixpkgs.
+## Funding
 
-## Updating a tool version
+- [GitHub Sponsors](https://github.com/sponsors/studiowebux)
+- [Patreon](https://patreon.com/studiowebux)
+- [Buy Me a Coffee](https://buymeacoffee.com/studiowebux)
 
-1. Find the new release URL for darwin arm64
-2. Get the hash: `nix-prefetch-url [--unpack] <url>`
-3. Convert: `nix hash to-sri --type sha256 <hash>`
-4. Update the version and hash in `pkgs/<tool>.nix`
-5. Clear the completion cache if applicable
-6. Run `litish <shell>` to verify
+## License
+
+[MIT](LICENSE)
