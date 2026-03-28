@@ -1,0 +1,14 @@
+#!/bin/bash
+FLAKE="github:studiowebux/litish"
+DEV_DIR="/Volumes/studiowebux/Development"
+
+shell="${1:-all}"
+
+case "$shell" in
+  all)    nix develop "$FLAKE" --profile "$DEV_DIR/.dev-profiles/all" ;;
+  update) nix flake update --flake "$FLAKE" ;;
+  show)   nix flake show "$FLAKE" ;;
+  check)  nix flake check "$FLAKE" ;;
+  gc)     nix store gc ;;
+  *)      nix develop "$FLAKE#$shell" --profile "$DEV_DIR/.dev-profiles/$shell" ;;
+esac

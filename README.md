@@ -47,21 +47,30 @@ diskutil apfs addVolume disk5 APFS "studiowebux" -passphrase
 
 You'll be prompted to set a password. The volume mounts at `/Volumes/studiowebux`.
 
-## Step 4 — Clone this repo
+## Step 4 — Set up the volume
 
 ```bash
 mkdir -p "/Volumes/studiowebux/Development"
-cd "/Volumes/studiowebux/Development"
-git init
 ```
 
-Copy all files from this repo into the directory, or clone it if hosted:
+## Step 5 — Install the `litish` CLI
+
+Copy the wrapper script to somewhere on your PATH:
 
 ```bash
-git clone <repo-url> "/Volumes/studiowebux/Development"
+cp litish /usr/local/bin/litish
+# or
+cp litish /Volumes/studiowebux/Development/.local/bin/litish
+export PATH="/Volumes/studiowebux/Development/.local/bin:$PATH"
 ```
 
-## Step 5 — Set up git config
+Make sure it's executable:
+
+```bash
+chmod +x /usr/local/bin/litish
+```
+
+## Step 6 — Set up git config
 
 Create a portable `.gitconfig` that stays on the volume:
 
@@ -73,7 +82,7 @@ cat > "/Volumes/studiowebux/Development/.gitconfig" << 'EOF'
 EOF
 ```
 
-## Step 6 — Update the `devDir` path (if different)
+## Step 7 — Update the `devDir` path (if different)
 
 If your volume is named differently, edit `flake.nix` line 14:
 
@@ -83,36 +92,37 @@ devDir = "/Volumes/Studio\\ Webux/Development";
 
 Change it to match your volume path. The `\\` is a Nix-escaped backslash for the shell space.
 
-## Step 7 — Build and enter a shell
+## Step 8 — Enter a shell
+
+From anywhere:
 
 ```bash
-cd "/Volumes/studiowebux/Development"
-make hx
+litish go
 ```
 
 The first run downloads and builds everything — this takes a while. Subsequent runs are instant thanks to `--profile` caching.
 
-## Available shells
-
-| Command    | Purpose                                           |
-|------------|---------------------------------------------------|
-| `make all` | Everything (default shell, used to test the build)|
-| `make hx`  | General editing — all LSPs                        |
-| `make deno`| Deno/TypeScript development                       |
-| `make go`  | Go development                                    |
-| `make ops` | Infrastructure — terraform, kubectl, flux, helm, ansible |
-| `make game`| Game dev — C# (omnisharp), Odin (ols), Lua        |
-| `make ai`  | AI/ML — Python (pyright, ruff)                    |
-| `make net` | Network analysis — nmap, mtr, tcpdump, etc.       |
-
-## Maintenance
+## Usage
 
 ```bash
-make update    # Update all flake inputs (nixpkgs)
-make gc        # Garbage collect old nix store paths
-make optimise  # Deduplicate identical files in the store
-make show      # Show available shells
-make check     # Validate the flake
+litish          # Enter default shell (everything)
+litish go       # Go development
+litish deno     # Deno/TypeScript
+litish hx       # General editing — all LSPs
+litish ops      # Infrastructure — terraform, kubectl, flux, helm, ansible
+litish game     # Game dev — C# (omnisharp), Odin (ols), Lua
+litish ai       # AI/ML — Python (pyright, ruff)
+litish net      # Network analysis — nmap, mtr, tcpdump, etc.
+litish update   # Update flake inputs (nixpkgs)
+litish show     # Show available shells
+litish check    # Validate the flake
+litish gc       # Garbage collect old nix store paths
+```
+
+Or use the Makefile directly (from the repo or Development directory):
+
+```bash
+make go
 ```
 
 ## Regenerate completions
@@ -120,7 +130,7 @@ make check     # Validate the flake
 Zsh completions are cached per shell. To force regeneration:
 
 ```bash
-rm -rf .cache/zsh-completions/
+rm -rf /Volumes/studiowebux/Development/.cache/zsh-completions/
 ```
 
 ## How it works
@@ -130,6 +140,7 @@ rm -rf .cache/zsh-completions/
 - **Pinned versions** — tools are fetched as specific versions in `pkgs/*.nix` with locked hashes
 - **Encrypted at rest** — the APFS volume is FileVault encrypted
 - **Nix store is the only thing on the host** — `/nix/store` holds the immutable packages, everything else is on the volume
+- **Run from anywhere** — the `litish` CLI wraps `nix develop` so you don't need to be in any specific directory
 
 ## File tree
 
@@ -142,7 +153,6 @@ rm -rf .cache/zsh-completions/
 ├── .state/                  # XDG state
 ├── .deno/                   # Deno cache
 ├── .dev-profiles/           # Nix dev shell profile cache
-├── .git/
 ├── .gitconfig               # Portable git config
 ├── .kube/                   # Kubernetes config + cache
 ├── .terraform/              # Terraform data, plugins, logs
@@ -151,11 +161,7 @@ rm -rf .cache/zsh-completions/
 ├── .zsh_history             # Shell history (shared across shells)
 ├── cerveau/                 # Cerveau app data
 ├── go/                      # GOPATH
-├── gomodcache/              # Go module cache
-├── pkgs/                    # Nix package definitions (one per tool)
-├── flake.nix                # Shell definitions + env vars
-├── flake.lock               # Pinned nixpkgs revision
-└── Makefile                 # Shell entry points + maintenance
+└── gomodcache/              # Go module cache
 ```
 
 ## Customizing
@@ -171,4 +177,4 @@ You can also use packages directly from the official nixpkgs repository instead 
 3. Convert: `nix hash to-sri --type sha256 <hash>`
 4. Update the version and hash in `pkgs/<tool>.nix`
 5. Clear the completion cache if applicable
-6. Run `make <shell>` to verify
+6. Run `litish <shell>` to verify
