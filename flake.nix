@@ -108,8 +108,7 @@
       echo "Cerveau: $(cerveau version)"
       echo "Claude:  $(claude --version)"
       echo "Lspmcp:  $(lspmcp -version)"
-      echo "Bujotui:     $(bujotui version)"
-      echo "Bujotui-mcp: $(bujotui-mcp version)"
+      echo "Bujotui: $(bujotui version)"
       echo "Restcli:     $(restcli --version)"
     '';
 
