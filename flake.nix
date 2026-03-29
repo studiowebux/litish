@@ -37,6 +37,8 @@
     proxytui = pkgs.callPackage ./pkgs/proxytui.nix {};
     timeago = pkgs.callPackage ./pkgs/timeago.nix {};
     lspmcp = pkgs.callPackage ./pkgs/lspmcp.nix {};
+    bujotui     = pkgs.callPackage ./pkgs/bujotui.nix {};
+    bujotui-mcp = pkgs.callPackage ./pkgs/bujotui-mcp.nix {};
 
     commonPackages = [
       helix
@@ -51,6 +53,11 @@
       pkgs.jq
       restcli
       timeago
+      bujotui
+      bujotui-mcp
+      cerveau
+      claude
+      lspmcp
     ];
 
     # Specialized LSP groups
@@ -95,6 +102,17 @@
       ${terraformCompletion}
     '';
 
+    commonVersions = ''
+      echo "Helix:   $(hx --version)"
+      echo "Git:     $(git --version)"
+      echo "Cerveau: $(cerveau version)"
+      echo "Claude:  $(claude --version)"
+      echo "Lspmcp:  $(lspmcp -version)"
+      echo "Bujotui:     $(bujotui --version)"
+      echo "Bujotui-mcp: $(bujotui-mcp --version)"
+      echo "Restcli:     $(restcli --version)"
+    '';
+
     mkPrompt = name: completions: ''
       export SHELL=${pkgs.zsh}/bin/zsh
       export ZDOTDIR=$(mktemp -d)
@@ -122,6 +140,8 @@
       export KUBECONFIG=${devDir}/.kube/config
       export KUBECACHEDIR=${devDir}/.kube/cache
       export CERVEAU_HOME=${devDir}/cerveau
+      export BUJOTUI_CONFIG_DIR=${devDir}/.config/bujotui
+      export BUJOTUI_DATA_DIR=${devDir}/.data/bujotui
       export ANSIBLE_HOME=${devDir}/.ansible
       export OMNISHARPHOME=${devDir}/.omnisharp
 
@@ -194,7 +214,7 @@
   in {
 
     devShells.${system} = {
-      default = mkShell "all" ([ deno go gopls cerveau claude lspmcp kubectl flux helm terraform pkgs.ansible sshtui minimaldoc proxytui
+      default = mkShell "all" ([ deno go gopls kubectl flux helm terraform pkgs.ansible sshtui minimaldoc proxytui
         pkgs.nmap pkgs.mtr pkgs.socat pkgs.tcpdump pkgs.curl pkgs.wget pkgs.dig pkgs.whois pkgs.netcat-gnu pkgs.openssl pkgs.bandwhich pkgs.aria2
         pkgs.mongodb-tools
       ]
@@ -206,48 +226,33 @@
           export PATH=${go}/bin:$GOPATH/bin:$PATH
           mkdir -p ${devDir}/.kube
           mkdir -p ${devDir}/.terraform/plugin-cache
-          echo "Deno: $(deno --version | head -1)"
-          echo "Go: $(go version)"
-          echo "Gopls: $(gopls version)"
-          echo "Helix: $(hx --version)"
-          echo "Git: $(git --version)"
+          echo "Deno:      $(deno --version | head -1)"
+          echo "Go:        $(go version)"
+          echo "Gopls:     $(gopls version)"
           echo "Terraform: $(terraform version | head -1)"
           echo "Kubectl: $(kubectl version --client --short 2>/dev/null || kubectl version --client)"
           echo "Flux: $(flux --version)"
           echo "Helm: $(helm version --short)"
-          echo "Ansible: $(ansible --version | head -1)"
-          echo "Cerveau: $(cerveau version)"
-          echo "Claude: $(claude --version)"
-          echo "Lspmcp: $(lspmcp -version)"
-          echo "Sshtui: $(sshtui --version)"
+          echo "Ansible:    $(ansible --version | head -1)"
+          echo "Sshtui:     $(sshtui --version)"
           echo "Minimaldoc: $(minimaldoc --version)"
-          echo "Proxytui: $(proxytui -version)"
-          echo "Mongodump: $(mongodump --version 2>&1 | head -1)"
-          echo "Restcli: $(restcli --version)"
+          echo "Proxytui:   $(proxytui -version)"
+          echo "Mongodump:  $(mongodump --version 2>&1 | head -1)"
+          ${commonVersions}
       '';
 
-      hx = mkShell "hx" ([ cerveau claude lspmcp ]
+      hx = mkShell "hx" ([]
         ++ lspTs ++ lspPython ++ lspOps ++ lspOdin ++ lspCsharp ++ lspLua
       ) hxCompletions ''
-          echo "Helix: $(hx --version)"
-          echo "Git: $(git --version)"
-          echo "Cerveau: $(cerveau version)"
-          echo "Claude: $(claude --version)"
-          echo "Lspmcp: $(lspmcp -version)"
-          echo "Restcli: $(restcli --version)"
+          ${commonVersions}
       '';
 
-      deno = mkShell "deno" [ deno cerveau claude lspmcp ] denoCompletions ''
+      deno = mkShell "deno" [ deno ] denoCompletions ''
           echo "Deno: $(deno --version)"
-          echo "Helix: $(hx --version)"
-          echo "Git: $(git --version)"
-          echo "Cerveau: $(cerveau version)"
-          echo "Claude: $(claude --version)"
-          echo "Lspmcp: $(lspmcp -version)"
-          echo "Restcli: $(restcli --version)"
+          ${commonVersions}
       '';
 
-      go = mkShell "go" [ go gopls cerveau claude lspmcp ] goCompletions ''
+      go = mkShell "go" [ go gopls ] goCompletions ''
           export GOROOT=${go}
           export GOPATH=${devDir}/go
           export GOCACHE=${devDir}/.cache/go-build
@@ -274,48 +279,32 @@
           echo "Gosec:       $(gosec --version)"
           echo "Govulncheck: $(govulncheck --version)"
 
-          echo "Helix: $(hx --version)"
-          echo "Git: $(git --version)"
-          echo "Go: $(go version)"
+          echo "Go:    $(go version)"
           echo "Gopls: $(gopls version)"
-          echo "Cerveau: $(cerveau version)"
-          echo "Claude: $(claude --version)"
-          echo "Lspmcp: $(lspmcp -version)"
-          echo "Restcli: $(restcli --version)"
+          ${commonVersions}
         '';
-      ops = mkShell "ops" ([ cerveau claude lspmcp kubectl flux helm terraform pkgs.ansible sshtui pkgs.mongodb-tools ]
+      ops = mkShell "ops" ([ kubectl flux helm terraform pkgs.ansible sshtui pkgs.mongodb-tools ]
         ++ lspOps
       ) opsCompletions ''
           mkdir -p ${devDir}/.kube
           mkdir -p ${devDir}/.terraform/plugin-cache
           echo "Terraform: $(terraform version | head -1)"
-          echo "Kubectl: $(kubectl version --client --short 2>/dev/null || kubectl version --client)"
-          echo "Helix: $(hx --version)"
-          echo "Git: $(git --version)"
-          echo "Flux: $(flux --version)"
+          echo "Kubectl:   $(kubectl version --client --short 2>/dev/null || kubectl version --client)"
+          echo "Flux:      $(flux --version)"
           echo "Helm: $(helm version --short)"
           echo "Ansible: $(ansible --version | head -1)"
-          echo "Sshtui: $(sshtui --version)"
-          echo "Cerveau: $(cerveau version)"
-          echo "Claude: $(claude --version)"
-          echo "Lspmcp: $(lspmcp -version)"
+          echo "Sshtui:    $(sshtui --version)"
           echo "Mongodump: $(mongodump --version 2>&1 | head -1)"
-          echo "Restcli: $(restcli --version)"
+          ${commonVersions}
       '';
 
-      game = mkShell "game" ([ cerveau claude lspmcp ]
+      game = mkShell "game" ([]
         ++ lspCsharp ++ lspOdin ++ lspLua
       ) hxCompletions ''
-          echo "Helix: $(hx --version)"
-          echo "Git: $(git --version)"
-          echo "Cerveau: $(cerveau version)"
-          echo "Claude: $(claude --version)"
-          echo "Lspmcp: $(lspmcp -version)"
-          echo "Restcli: $(restcli --version)"
+          ${commonVersions}
       '';
 
       net = mkShell "net" [
-        cerveau claude lspmcp
         sshtui
         proxytui
         pkgs.nmap
@@ -345,23 +334,15 @@
           echo "Jq:        $(jq --version)"
           echo "Bandwhich: $(bandwhich --version)"
           echo "Aria2:     $(aria2c --version | head -1)"
-          echo "Sshtui:    $(sshtui --version)"
-          echo "Proxytui:  $(proxytui -version)"
-          echo "Cerveau:   $(cerveau version)"
-          echo "Claude:    $(claude --version)"
-          echo "Lspmcp:    $(lspmcp -version)"
-          echo "Restcli:   $(restcli --version)"
+          echo "Sshtui:   $(sshtui --version)"
+          echo "Proxytui: $(proxytui -version)"
+          ${commonVersions}
       '';
 
-      ai = mkShell "ai" ([ cerveau claude lspmcp ]
+      ai = mkShell "ai" ([]
         ++ lspPython
       ) hxCompletions ''
-          echo "Helix: $(hx --version)"
-          echo "Git: $(git --version)"
-          echo "Cerveau: $(cerveau version)"
-          echo "Claude: $(claude --version)"
-          echo "Lspmcp: $(lspmcp -version)"
-          echo "Restcli: $(restcli --version)"
+          ${commonVersions}
       '';
     };
   };
