@@ -196,6 +196,7 @@
     devShells.${system} = {
       default = mkShell "all" ([ deno go gopls cerveau claude lspmcp kubectl flux helm terraform pkgs.ansible sshtui minimaldoc proxytui
         pkgs.nmap pkgs.mtr pkgs.socat pkgs.tcpdump pkgs.curl pkgs.wget pkgs.dig pkgs.whois pkgs.netcat-gnu pkgs.openssl pkgs.bandwhich pkgs.aria2
+        pkgs.mongodb-tools
       ]
         ++ lspTs ++ lspPython ++ lspOps ++ lspOdin ++ lspCsharp ++ lspLua
       ) opsCompletions ''
@@ -221,6 +222,7 @@
           echo "Sshtui: $(sshtui --version)"
           echo "Minimaldoc: $(minimaldoc --version)"
           echo "Proxytui: $(proxytui -version)"
+          echo "Mongodump: $(mongodump --version 2>&1 | head -1)"
           echo "Restcli: $(restcli --version)"
       '';
 
@@ -281,7 +283,7 @@
           echo "Lspmcp: $(lspmcp -version)"
           echo "Restcli: $(restcli --version)"
         '';
-      ops = mkShell "ops" ([ cerveau claude lspmcp kubectl flux helm terraform pkgs.ansible sshtui ]
+      ops = mkShell "ops" ([ cerveau claude lspmcp kubectl flux helm terraform pkgs.ansible sshtui pkgs.mongodb-tools ]
         ++ lspOps
       ) opsCompletions ''
           mkdir -p ${devDir}/.kube
@@ -297,6 +299,7 @@
           echo "Cerveau: $(cerveau version)"
           echo "Claude: $(claude --version)"
           echo "Lspmcp: $(lspmcp -version)"
+          echo "Mongodump: $(mongodump --version 2>&1 | head -1)"
           echo "Restcli: $(restcli --version)"
       '';
 
