@@ -6,7 +6,7 @@ shell="${1:-all}"
 
 case "$shell" in
   all)    nix develop "$FLAKE" --profile "$DEV_DIR/.dev-profiles/all" ;;
-  update) nix flake update --flake "$FLAKE" ;;
+  update) nix flake metadata "$FLAKE" --refresh && echo "Flake refreshed." ;;
   show)   nix flake show "$FLAKE" ;;
   check)  nix flake check "$FLAKE" ;;
   gc)     nix store gc ;;
