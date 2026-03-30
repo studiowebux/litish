@@ -356,7 +356,7 @@
       node = mkShell "node" [ pkgs.nodejs_24 ] nodeCompletions ''
           export NPM_CONFIG_CACHE=${devDir}/.cache/npm
           export NPM_CONFIG_PREFIX=${devDir}/.npm-global
-          export NPM_CONFIG_STORE_DIR=${devDir}/.cache/pnpm
+          export NPM_CONFIG_USERCONFIG=${devDir}/.config/npm/npmrc
           export NODE_REPL_HISTORY=${devDir}/.node_repl_history
           export PATH=${devDir}/.npm-global/bin:$PATH
 
