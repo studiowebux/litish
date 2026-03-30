@@ -78,6 +78,14 @@
     helmCompletion     = ''helm completion zsh > $COMP_DIR/_helm'';
     terraformCompletion = ''printf '#compdef terraform\nautoload -U +X bashcompinit && bashcompinit\ncomplete -o nospace -C terraform terraform\n' > $COMP_DIR/_terraform'';
 
+    nodeCompletion     = ''npm completion > $COMP_DIR/_npm'';
+
+    nodeCompletions = ''
+      ${ghCompletion}
+      ${cerveauCompletion}
+      ${nodeCompletion}
+    '';
+
     denoCompletions = ''
       ${ghCompletion}
       ${denoCompletion}
@@ -342,6 +350,26 @@
       ai = mkShell "ai" ([]
         ++ lspPython
       ) hxCompletions ''
+          ${commonVersions}
+      '';
+
+      node = mkShell "node" [ pkgs.nodejs_24 ] nodeCompletions ''
+          export NPM_CONFIG_CACHE=${devDir}/.cache/npm
+          export NPM_CONFIG_PREFIX=${devDir}/.npm-global
+          export NPM_CONFIG_STORE_DIR=${devDir}/.cache/pnpm
+          export NODE_REPL_HISTORY=${devDir}/.node_repl_history
+          export PATH=${devDir}/.npm-global/bin:$PATH
+
+          # Telemetry
+          export NPM_CONFIG_UPDATE_NOTIFIER=false
+          export NPM_CONFIG_FUND=false
+          export NEXT_TELEMETRY_DISABLED=1
+          export ASTRO_TELEMETRY_DISABLED=1
+          export NUXT_TELEMETRY_DISABLED=1
+          export TURBO_TELEMETRY_DISABLED=1
+
+          echo "Node: $(node --version)"
+          echo "Npm:  $(npm --version)"
           ${commonVersions}
       '';
     };
