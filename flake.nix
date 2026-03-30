@@ -58,6 +58,7 @@
       cerveau
       claude
       lspmcp
+      pkgs.python3
     ];
 
     # Specialized LSP groups
