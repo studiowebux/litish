@@ -3,11 +3,11 @@
 
 stdenv.mkDerivation rec {
   pname   = "bujotui-mcp";
-  version = "0.1.0";
+  version = "0.2.0";
 
   src = fetchurl {
     url  = "https://github.com/studiowebux/bujotui/releases/download/v${version}/bujotui-mcp-darwin-arm64";
-    hash = "sha256-yGxAm35d5p9l/uckmPR8JNw6doteFHMzvt9SxZ9lFbc=";
+    hash = "sha256-C+zo59s+YHg8BMctEmOGVQdElUqzdjQk1aidi5dI6Go=";
   };
 
   dontUnpack = true;
