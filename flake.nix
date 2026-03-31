@@ -255,7 +255,7 @@
           ${commonVersions}
       '';
 
-      deno = mkShell "deno" [ deno ] denoCompletions ''
+      deno = mkShell "deno" ([ deno ] ++ lspTs) denoCompletions ''
           echo "Deno: $(deno --version)"
           ${commonVersions}
       '';
@@ -353,7 +353,7 @@
           ${commonVersions}
       '';
 
-      node = mkShell "node" [ pkgs.nodejs_24 ] nodeCompletions ''
+      node = mkShell "node" ([ pkgs.nodejs_24 ] ++ lspTs) nodeCompletions ''
           export NPM_CONFIG_CACHE=${devDir}/.cache/npm
           export NPM_CONFIG_PREFIX=${devDir}/.npm-global
           export NPM_CONFIG_USERCONFIG=${devDir}/.config/npm/npmrc
