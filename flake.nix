@@ -249,7 +249,6 @@
           echo "Mongosh:    $(mongosh --version)"
           echo "Redis-cli:  $(redis-cli --version)"
           echo "Psql:       $(psql --version)"
-          echo "Podman-compose: $(podman-compose --version)"
           ${commonVersions}
       '';
 
@@ -310,7 +309,6 @@
           echo "Mongosh:   $(mongosh --version)"
           echo "Redis-cli: $(redis-cli --version)"
           echo "Psql:      $(psql --version)"
-          echo "Podman-compose: $(podman-compose --version)"
           ${commonVersions}
       '';
 
