@@ -224,7 +224,7 @@
     devShells.${system} = {
       default = mkShell "all" ([ deno go gopls kubectl flux helm terraform pkgs.ansible sshtui minimaldoc proxytui
         pkgs.nmap pkgs.mtr pkgs.socat pkgs.tcpdump pkgs.curl pkgs.wget pkgs.dig pkgs.whois pkgs.netcat-gnu pkgs.openssl pkgs.bandwhich pkgs.aria2
-        pkgs.mongodb-tools
+        pkgs.mongodb-tools pkgs.mongosh pkgs.redis pkgs.postgresql
       ]
         ++ lspTs ++ lspPython ++ lspOps ++ lspOdin ++ lspCsharp ++ lspLua
       ) opsCompletions ''
@@ -246,6 +246,9 @@
           echo "Minimaldoc: $(minimaldoc --version)"
           echo "Proxytui:   $(proxytui -version)"
           echo "Mongodump:  $(mongodump --version 2>&1 | head -1)"
+          echo "Mongosh:    $(mongosh --version)"
+          echo "Redis-cli:  $(redis-cli --version)"
+          echo "Psql:       $(psql --version)"
           ${commonVersions}
       '';
 
@@ -291,7 +294,7 @@
           echo "Gopls: $(gopls version)"
           ${commonVersions}
         '';
-      ops = mkShell "ops" ([ kubectl flux helm terraform pkgs.ansible sshtui pkgs.mongodb-tools ]
+      ops = mkShell "ops" ([ kubectl flux helm terraform pkgs.ansible sshtui pkgs.mongodb-tools pkgs.mongosh pkgs.redis pkgs.postgresql ]
         ++ lspOps
       ) opsCompletions ''
           mkdir -p ${devDir}/.kube
@@ -299,10 +302,13 @@
           echo "Terraform: $(terraform version | head -1)"
           echo "Kubectl:   $(kubectl version --client --short 2>/dev/null || kubectl version --client)"
           echo "Flux:      $(flux --version)"
-          echo "Helm: $(helm version --short)"
-          echo "Ansible: $(ansible --version | head -1)"
+          echo "Helm:      $(helm version --short)"
+          echo "Ansible:   $(ansible --version | head -1)"
           echo "Sshtui:    $(sshtui --version)"
           echo "Mongodump: $(mongodump --version 2>&1 | head -1)"
+          echo "Mongosh:   $(mongosh --version)"
+          echo "Redis-cli: $(redis-cli --version)"
+          echo "Psql:      $(psql --version)"
           ${commonVersions}
       '';
 
@@ -350,6 +356,14 @@
       ai = mkShell "ai" ([]
         ++ lspPython
       ) hxCompletions ''
+          ${commonVersions}
+      '';
+
+      db = mkShell "db" [ pkgs.redis pkgs.postgresql pkgs.mongodb-tools pkgs.mongosh ] hxCompletions ''
+          echo "Redis-cli: $(redis-cli --version)"
+          echo "Psql:      $(psql --version)"
+          echo "Mongodump: $(mongodump --version 2>&1 | head -1)"
+          echo "Mongosh:   $(mongosh --version)"
           ${commonVersions}
       '';
 
