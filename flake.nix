@@ -140,6 +140,10 @@
       setopt APPEND_HISTORY
       setopt SHARE_HISTORY
 
+      # Runtime dir — stable path on volume (podman socket lives here)
+      export XDG_RUNTIME_DIR=${devDir}/.run
+      export CONTAINER_HOST=unix://${devDir}/.run/podman/podman.sock
+
       # Tool-specific paths
       export DENO_DIR=${devDir}/.deno
       export GOMODCACHE=${devDir}/gomodcache
@@ -248,7 +252,10 @@
           echo "Mongodump:  $(mongodump --version 2>&1 | head -1)"
           echo "Mongosh:    $(mongosh --version)"
           echo "Redis-cli:  $(redis-cli --version)"
-          echo "Psql:       $(psql --version)"
+          echo "Psql:           $(psql --version)"
+          echo "Podman:         $(podman --version)"
+          echo "Podman-compose: $(podman-compose -v)"
+          mkdir -p ${devDir}/.run/podman
           ${commonVersions}
       '';
 
@@ -306,9 +313,12 @@
           echo "Ansible:   $(ansible --version | head -1)"
           echo "Sshtui:    $(sshtui --version)"
           echo "Mongodump: $(mongodump --version 2>&1 | head -1)"
-          echo "Mongosh:   $(mongosh --version)"
-          echo "Redis-cli: $(redis-cli --version)"
-          echo "Psql:      $(psql --version)"
+          echo "Mongosh:        $(mongosh --version)"
+          echo "Redis-cli:      $(redis-cli --version)"
+          echo "Psql:           $(psql --version)"
+          echo "Podman:         $(podman --version)"
+          echo "Podman-compose: $(podman-compose -v)"
+          mkdir -p ${devDir}/.run/podman
           ${commonVersions}
       '';
 
