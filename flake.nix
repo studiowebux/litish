@@ -224,7 +224,7 @@
     devShells.${system} = {
       default = mkShell "all" ([ deno go gopls kubectl flux helm terraform pkgs.ansible sshtui minimaldoc proxytui
         pkgs.nmap pkgs.mtr pkgs.socat pkgs.tcpdump pkgs.curl pkgs.wget pkgs.dig pkgs.whois pkgs.netcat-gnu pkgs.openssl pkgs.bandwhich pkgs.aria2
-        pkgs.mongodb-tools pkgs.mongosh pkgs.redis pkgs.postgresql pkgs.podman-compose
+        pkgs.mongodb-tools pkgs.mongosh pkgs.redis pkgs.postgresql pkgs.podman-compose pkgs.podman
       ]
         ++ lspTs ++ lspPython ++ lspOps ++ lspOdin ++ lspCsharp ++ lspLua
       ) opsCompletions ''
@@ -294,7 +294,7 @@
           echo "Gopls: $(gopls version)"
           ${commonVersions}
         '';
-      ops = mkShell "ops" ([ kubectl flux helm terraform pkgs.ansible sshtui pkgs.mongodb-tools pkgs.mongosh pkgs.redis pkgs.postgresql pkgs.podman-compose ]
+      ops = mkShell "ops" ([ kubectl flux helm terraform pkgs.ansible sshtui pkgs.mongodb-tools pkgs.mongosh pkgs.redis pkgs.postgresql pkgs.podman-compose pkgs.podman ]
         ++ lspOps
       ) opsCompletions ''
           mkdir -p ${devDir}/.kube
