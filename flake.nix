@@ -365,6 +365,11 @@
           ${commonVersions}
       '';
 
+      hw = mkShell "hw" [ pkgs.smartmontools ] hxCompletions ''
+          echo "Smartctl: $(smartctl --version | head -1)"
+          ${commonVersions}
+      '';
+
       db = mkShell "db" [ pkgs.redis pkgs.postgresql pkgs.mongodb-tools pkgs.mongosh ] hxCompletions ''
           echo "Redis-cli: $(redis-cli --version)"
           echo "Psql:      $(psql --version)"
