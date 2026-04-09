@@ -43,6 +43,10 @@
     commonPackages = [
       helix
       pkgs.neovim
+      pkgs.fd
+      pkgs.ripgrep
+      pkgs.fzf
+      pkgs.lazygit
       gh
       pkgs.git
       pkgs.zsh
