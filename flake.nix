@@ -42,6 +42,7 @@
 
     commonPackages = [
       helix
+      pkgs.neovim
       gh
       pkgs.git
       pkgs.zsh

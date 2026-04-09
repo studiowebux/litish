@@ -80,6 +80,9 @@ litish hx       # General editing with all LSPs
 litish ops      # Infrastructure — terraform, kubectl, flux, helm, ansible
 litish game     # Game dev — C#, Odin, Lua
 litish ai       # AI/ML — Python with pyright and ruff
+litish node     # NodeJS
+litish hw       # Linux tools
+litish db       # Postgres, Mongo, redis
 litish net      # Network analysis — nmap, mtr, tcpdump, etc.
 litish update   # Update flake inputs
 litish show     # Show available shells
@@ -91,49 +94,53 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 
 ## Shells
 
-| Shell | Purpose | Key tools |
-|-------|---------|-----------|
-| `all` | Everything (default) | All tools below combined |
-| `hx` | General editing | Helix + all LSP servers |
-| `deno` | TypeScript/JavaScript | Deno, TypeScript LSP |
-| `go` | Go development | Go, gopls, staticcheck, gosec, govulncheck |
-| `ops` | Infrastructure | Terraform, kubectl, flux, helm, ansible, sshtui |
-| `game` | Game development | OmniSharp (C#), ols (Odin), lua-language-server |
-| `ai` | AI/ML | Pyright, ruff |
-| `net` | Network analysis | nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat, bandwhich, aria2, sshtui, proxytui |
+| Shell  | Purpose               | Key tools                                                                                     |
+| ------ | --------------------- | --------------------------------------------------------------------------------------------- |
+| `all`  | Everything (default)  | All tools below combined                                                                      |
+| `hx`   | General editing       | Helix + all LSP servers                                                                       |
+| `deno` | TypeScript/JavaScript | Deno, TypeScript LSP                                                                          |
+| `go`   | Go development        | Go, gopls, staticcheck, gosec, govulncheck                                                    |
+| `ops`  | Infrastructure        | Terraform, kubectl, flux, helm, ansible, sshtui                                               |
+| `game` | Game development      | OmniSharp (C#), ols (Odin), lua-language-server                                               |
+| `ai`   | AI/ML                 | Pyright, ruff                                                                                 |
+| `net`  | Network analysis      | nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat, bandwhich, aria2, sshtui, proxytui |
+| `node` | NodeJS Development    |                                                                                               |
+| `hw`   | Hardware Analysis     |                                                                                               |
+| `db`   | Database              |                                                                                               |
 
 ## Packages
 
 ### Custom packages (`pkgs/`)
 
-| Package | Version | Description |
-|---------|---------|-------------|
-| [cerveau](https://github.com/studiowebux/cerveau.dev) | 1.4.3 | Brain manager for Claude Code |
-| [claude](https://claude.ai/code) | 2.1.86 | Claude Code CLI |
-| [deno](https://deno.land) | 2.7.7 | JavaScript/TypeScript runtime |
-| [flux](https://fluxcd.io) | 2.8.3 | GitOps for Kubernetes |
-| [gh](https://cli.github.com) | 2.88.1 | GitHub CLI |
-| [go](https://go.dev) | 1.26.1 | Go programming language |
-| [gopls](https://pkg.go.dev/golang.org/x/tools/gopls) | 0.21.1 | Go language server |
-| [helix](https://helix-editor.com) | 25.07.1 | Terminal text editor |
-| [helm](https://helm.sh) | 4.1.3 | Kubernetes package manager |
-| [helm-ls](https://github.com/mrjosh/helm-ls) | 0.5.4 | Helm language server |
-| [kubectl](https://kubernetes.io/docs/reference/kubectl) | 1.35.3 | Kubernetes CLI |
-| [lspmcp](https://github.com/studiowebux/lspmcp) | 0.1.0 | LSP to MCP bridge |
-| [lua-language-server](https://github.com/LuaLS/lua-language-server) | 3.17.1 | Lua language server |
-| [minimaldoc](https://github.com/studiowebux/minimaldoc) | 1.6.0 | Documentation generator |
-| [ols](https://github.com/DanielGaworworski/ols) | dev-2026-03 | Odin language server |
-| [omnisharp](https://github.com/OmniSharp/omnisharp-roslyn) | 1.39.15 | C# language server |
-| [proxytui](https://github.com/studiowebux/proxytui) | 0.2.0 | TUI proxy manager |
-| [restcli](https://github.com/studiowebux/restcli) | 0.0.41 | REST API client TUI |
-| [sshtui](https://github.com/studiowebux/sshtui) | 0.0.3 | SSH connection manager TUI |
-| [terraform](https://www.terraform.io) | 1.14.8 | Infrastructure as code |
-| [terraform-ls](https://github.com/hashicorp/terraform-ls) | 0.38.6 | Terraform language server |
-| [timeago](https://github.com/studiowebux/timeago) | 1.0.2 | Timestamp converter |
+| Package                                                             | Version     | Description                           |
+| ------------------------------------------------------------------- | ----------- | ------------------------------------- |
+| [cerveau](https://github.com/studiowebux/cerveau.dev)               | 1.4.3       | Brain manager for Claude Code         |
+| [claude](https://claude.ai/code)                                    | 2.1.97      | Claude Code CLI                       |
+| [deno](https://deno.land)                                           | 2.7.7       | JavaScript/TypeScript runtime         |
+| [flux](https://fluxcd.io)                                           | 2.8.3       | GitOps for Kubernetes                 |
+| [gh](https://cli.github.com)                                        | 2.88.1      | GitHub CLI                            |
+| [go](https://go.dev)                                                | 1.26.1      | Go programming language               |
+| [gopls](https://pkg.go.dev/golang.org/x/tools/gopls)                | 0.21.1      | Go language server                    |
+| [helix](https://helix-editor.com)                                   | 25.07.1     | Terminal text editor                  |
+| [helm](https://helm.sh)                                             | 4.1.3       | Kubernetes package manager            |
+| [helm-ls](https://github.com/mrjosh/helm-ls)                        | 0.5.4       | Helm language server                  |
+| [kubectl](https://kubernetes.io/docs/reference/kubectl)             | 1.35.3      | Kubernetes CLI                        |
+| [lspmcp](https://github.com/studiowebux/lspmcp)                     | 0.1.0       | LSP to MCP bridge                     |
+| [lua-language-server](https://github.com/LuaLS/lua-language-server) | 3.17.1      | Lua language server                   |
+| [minimaldoc](https://github.com/studiowebux/minimaldoc)             | 1.6.0       | Documentation generator               |
+| [nvim](https://neovim.io)                                           | 0.11.6      | hyperextensible Vim-based text editor |
+| [ols](https://github.com/DanielGaworworski/ols)                     | dev-2026-03 | Odin language server                  |
+| [omnisharp](https://github.com/OmniSharp/omnisharp-roslyn)          | 1.39.15     | C# language server                    |
+| [proxytui](https://github.com/studiowebux/proxytui)                 | 0.2.0       | TUI proxy manager                     |
+| [restcli](https://github.com/studiowebux/restcli)                   | 0.0.41      | REST API client TUI                   |
+| [sshtui](https://github.com/studiowebux/sshtui)                     | 0.0.3       | SSH connection manager TUI            |
+| [terraform](https://www.terraform.io)                               | 1.14.8      | Infrastructure as code                |
+| [terraform-ls](https://github.com/hashicorp/terraform-ls)           | 0.38.6      | Terraform language server             |
+| [timeago](https://github.com/studiowebux/timeago)                   | 1.0.2       | Timestamp converter                   |
 
 ### From nixpkgs
 
-git, zsh, jq, nil (Nix LSP), yaml-language-server, bash-language-server, prettier, vscode-langservers-extracted (JSON/HTML/CSS LSP), typescript-language-server, pyright, ruff, dockerfile-language-server, ansible, nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat, openssl, bandwhich, aria2
+git, zsh, jq, nil (Nix LSP), yaml-language-server, bash-language-server, prettier, vscode-langservers-extracted (JSON/HTML/CSS LSP), typescript-language-server, pyright, ruff, dockerfile-language-server, ansible, nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat, openssl, bandwhich, aria2, nvim
 
 ## How it works
 
