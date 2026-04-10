@@ -21,6 +21,7 @@
     cerveau = pkgs.callPackage ./pkgs/cerveau.nix {};
     claude = pkgs.callPackage ./pkgs/claude.nix {};
     kubectl = pkgs.callPackage ./pkgs/kubectl.nix {};
+    cilium = pkgs.callPackage ./pkgs/cilium.nix {};
     flux = pkgs.callPackage ./pkgs/flux.nix {};
     helm = pkgs.callPackage ./pkgs/helm.nix {};
     terraform = pkgs.callPackage ./pkgs/terraform.nix {};
@@ -228,7 +229,7 @@
   in {
 
     devShells.${system} = {
-      default = mkShell "all" ([ deno go gopls kubectl flux helm terraform pkgs.ansible sshtui minimaldoc proxytui
+      default = mkShell "all" ([ deno go gopls kubectl cilium flux helm terraform pkgs.ansible sshtui minimaldoc proxytui
         pkgs.nmap pkgs.mtr pkgs.socat pkgs.tcpdump pkgs.curl pkgs.wget pkgs.dig pkgs.whois pkgs.netcat-gnu pkgs.openssl pkgs.bandwhich pkgs.aria2
         pkgs.mongodb-tools pkgs.mongosh pkgs.redis pkgs.postgresql pkgs.podman-compose pkgs.podman
       ]
@@ -303,13 +304,14 @@
           echo "Gopls: $(gopls version)"
           ${commonVersions}
         '';
-      ops = mkShell "ops" ([ kubectl flux helm terraform pkgs.ansible sshtui pkgs.mongodb-tools pkgs.mongosh pkgs.redis pkgs.postgresql pkgs.podman-compose pkgs.podman ]
+      ops = mkShell "ops" ([ kubectl cilium flux helm terraform pkgs.ansible sshtui pkgs.mongodb-tools pkgs.mongosh pkgs.redis pkgs.postgresql pkgs.podman-compose pkgs.podman ]
         ++ lspOps
       ) opsCompletions ''
           mkdir -p ${devDir}/.kube
           mkdir -p ${devDir}/.terraform/plugin-cache
           echo "Terraform: $(terraform version | head -1)"
           echo "Kubectl:   $(kubectl version --client --short 2>/dev/null || kubectl version --client)"
+          echo "Cilium:    $(cilium version)"
           echo "Flux:      $(flux --version)"
           echo "Helm:      $(helm version --short)"
           echo "Ansible:   $(ansible --version | head -1)"

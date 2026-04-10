@@ -94,19 +94,19 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 
 ## Shells
 
-| Shell  | Purpose               | Key tools                                                                                     |
-| ------ | --------------------- | --------------------------------------------------------------------------------------------- |
-| `all`  | Everything (default)  | All tools below combined                                                                      |
-| `hx`   | General editing       | Helix + all LSP servers                                                                       |
-| `deno` | TypeScript/JavaScript | Deno, TypeScript LSP                                                                          |
-| `go`   | Go development        | Go, gopls, staticcheck, gosec, govulncheck                                                    |
-| `ops`  | Infrastructure        | Terraform, kubectl, flux, helm, ansible, sshtui                                               |
-| `game` | Game development      | OmniSharp (C#), ols (Odin), lua-language-server                                               |
-| `ai`   | AI/ML                 | Pyright, ruff                                                                                 |
-| `net`  | Network analysis      | nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat, bandwhich, aria2, sshtui, proxytui |
-| `node` | NodeJS Development    |                                                                                               |
-| `hw`   | Hardware Analysis     |                                                                                               |
-| `db`   | Database              |                                                                                               |
+| Shell  | Purpose               | Key tools                                                                                       |
+| ------ | --------------------- | ----------------------------------------------------------------------------------------------- |
+| `all`  | Everything (default)  | All tools below combined                                                                        |
+| `hx`   | General editing       | Helix + all LSP servers                                                                         |
+| `deno` | TypeScript/JavaScript | Deno, TypeScript LSP                                                                            |
+| `go`   | Go development        | Go, gopls, staticcheck, gosec, govulncheck                                                      |
+| `ops`  | Infrastructure        | Terraform, kubectl, cilium, flux, helm, ansible, sshtui, postgresql, mongodb-tools, mongosh, redis, podman, podman-compose |
+| `game` | Game development      | OmniSharp (C#), ols (Odin), lua-language-server                                                 |
+| `ai`   | AI/ML                 | Pyright, ruff                                                                                   |
+| `net`  | Network analysis      | nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat-gnu, openssl, bandwhich, aria2, sshtui, proxytui |
+| `node` | NodeJS Development    | nodejs_24, typescript-language-server                                                           |
+| `hw`   | Hardware Analysis     | smartmontools                                                                                   |
+| `db`   | Database              | postgresql, mongodb-tools, mongosh, redis                                                       |
 
 ## Packages
 
@@ -114,8 +114,11 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 
 | Package                                                             | Version     | Description                           |
 | ------------------------------------------------------------------- | ----------- | ------------------------------------- |
+| [bujotui](https://github.com/studiowebux/bujotui)                   | 0.2.1       | Bullet journal TUI                    |
+| [bujotui-mcp](https://github.com/studiowebux/bujotui)               | 0.2.1       | Bullet journal TUI MCP server         |
 | [cerveau](https://github.com/studiowebux/cerveau.dev)               | 1.4.3       | Brain manager for Claude Code         |
-| [claude](https://claude.ai/code)                                    | 2.1.97      | Claude Code CLI                       |
+| [cilium-cli](https://github.com/cilium/cilium-cli)                  | 0.19.2      | Cilium CLI                            |
+| [claude](https://claude.ai/code)                                    | 2.1.98      | Claude Code CLI                       |
 | [deno](https://deno.land)                                           | 2.7.7       | JavaScript/TypeScript runtime         |
 | [flux](https://fluxcd.io)                                           | 2.8.3       | GitOps for Kubernetes                 |
 | [gh](https://cli.github.com)                                        | 2.88.1      | GitHub CLI                            |
@@ -128,7 +131,6 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 | [lspmcp](https://github.com/studiowebux/lspmcp)                     | 0.1.0       | LSP to MCP bridge                     |
 | [lua-language-server](https://github.com/LuaLS/lua-language-server) | 3.17.1      | Lua language server                   |
 | [minimaldoc](https://github.com/studiowebux/minimaldoc)             | 1.6.0       | Documentation generator               |
-| [nvim](https://neovim.io)                                           | 0.11.6      | hyperextensible Vim-based text editor |
 | [ols](https://github.com/DanielGaworworski/ols)                     | dev-2026-03 | Odin language server                  |
 | [omnisharp](https://github.com/OmniSharp/omnisharp-roslyn)          | 1.39.15     | C# language server                    |
 | [proxytui](https://github.com/studiowebux/proxytui)                 | 0.2.0       | TUI proxy manager                     |
@@ -140,7 +142,15 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 
 ### From nixpkgs
 
-git, zsh, jq, nil (Nix LSP), yaml-language-server, bash-language-server, prettier, vscode-langservers-extracted (JSON/HTML/CSS LSP), typescript-language-server, pyright, ruff, dockerfile-language-server, ansible, nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat, openssl, bandwhich, aria2, nvim
+**Common (all shells):** git, zsh, jq, fd, ripgrep, fzf, lazygit, yq-go, python3, neovim
+
+**LSP / formatters:** nil (Nix LSP), yaml-language-server, bash-language-server, prettier, vscode-langservers-extracted (JSON/HTML/CSS LSP), typescript-language-server, pyright, ruff, dockerfile-language-server
+
+**Ops shells:** ansible, postgresql, mongodb-tools, mongosh, redis, podman, podman-compose
+
+**Network (`net` shell):** nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat-gnu, openssl, bandwhich, aria2
+
+**Shell-specific:** nodejs_24 (`node`), smartmontools (`hw`)
 
 ## How it works
 
