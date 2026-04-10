@@ -47,7 +47,7 @@
       pkgs.ripgrep
       pkgs.fzf
       pkgs.lazygit
-      pkgs.yq
+      pkgs.yq-go
       gh
       pkgs.git
       pkgs.zsh
