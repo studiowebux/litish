@@ -82,6 +82,8 @@
     ghCompletion       = ''gh completion -s zsh > $COMP_DIR/_gh'';
     denoCompletion     = ''deno completions zsh > $COMP_DIR/_deno'';
     kubectlCompletion  = ''kubectl completion zsh > $COMP_DIR/_kubectl'';
+    ciliumCompletion   = ''cilium completion zsh > $COMP_DIR/_cilium'';
+    hubbleCompletion   = ''hubble completion zsh > $COMP_DIR/_hubble'';
     fluxCompletion     = ''flux completion zsh > $COMP_DIR/_flux'';
     helmCompletion     = ''helm completion zsh > $COMP_DIR/_helm'';
     terraformCompletion = ''printf '#compdef terraform\nautoload -U +X bashcompinit && bashcompinit\ncomplete -o nospace -C terraform terraform\n' > $COMP_DIR/_terraform'';
@@ -114,6 +116,8 @@
       ${ghCompletion}
       ${cerveauCompletion}
       ${kubectlCompletion}
+      ${ciliumCompletion}
+      ${hubbleCompletion}
       ${fluxCompletion}
       ${helmCompletion}
       ${terraformCompletion}
