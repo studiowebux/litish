@@ -22,6 +22,7 @@
     claude = pkgs.callPackage ./pkgs/claude.nix {};
     kubectl = pkgs.callPackage ./pkgs/kubectl.nix {};
     cilium = pkgs.callPackage ./pkgs/cilium.nix {};
+    hubble = pkgs.callPackage ./pkgs/hubble.nix {};
     flux = pkgs.callPackage ./pkgs/flux.nix {};
     helm = pkgs.callPackage ./pkgs/helm.nix {};
     terraform = pkgs.callPackage ./pkgs/terraform.nix {};
@@ -229,7 +230,7 @@
   in {
 
     devShells.${system} = {
-      default = mkShell "all" ([ deno go gopls kubectl cilium flux helm terraform pkgs.ansible sshtui minimaldoc proxytui
+      default = mkShell "all" ([ deno go gopls kubectl cilium hubble flux helm terraform pkgs.ansible sshtui minimaldoc proxytui
         pkgs.nmap pkgs.mtr pkgs.socat pkgs.tcpdump pkgs.curl pkgs.wget pkgs.dig pkgs.whois pkgs.netcat-gnu pkgs.openssl pkgs.bandwhich pkgs.aria2
         pkgs.mongodb-tools pkgs.mongosh pkgs.redis pkgs.postgresql pkgs.podman-compose pkgs.podman
       ]
@@ -246,6 +247,7 @@
           echo "Gopls:     $(gopls version)"
           echo "Terraform: $(terraform version | head -1)"
           echo "Kubectl: $(kubectl version --client --short 2>/dev/null || kubectl version --client)"
+          echo "Hubble: $(hubble version)"
           echo "Flux: $(flux --version)"
           echo "Helm: $(helm version --short)"
           echo "Ansible:    $(ansible --version | head -1)"
@@ -304,7 +306,7 @@
           echo "Gopls: $(gopls version)"
           ${commonVersions}
         '';
-      ops = mkShell "ops" ([ kubectl cilium flux helm terraform pkgs.ansible sshtui pkgs.mongodb-tools pkgs.mongosh pkgs.redis pkgs.postgresql pkgs.podman-compose pkgs.podman ]
+      ops = mkShell "ops" ([ kubectl cilium hubble flux helm terraform pkgs.ansible sshtui pkgs.mongodb-tools pkgs.mongosh pkgs.redis pkgs.postgresql pkgs.podman-compose pkgs.podman ]
         ++ lspOps
       ) opsCompletions ''
           mkdir -p ${devDir}/.kube
@@ -312,6 +314,7 @@
           echo "Terraform: $(terraform version | head -1)"
           echo "Kubectl:   $(kubectl version --client --short 2>/dev/null || kubectl version --client)"
           echo "Cilium:    $(cilium version)"
+          echo "Hubble:    $(hubble version)"
           echo "Flux:      $(flux --version)"
           echo "Helm:      $(helm version --short)"
           echo "Ansible:   $(ansible --version | head -1)"
