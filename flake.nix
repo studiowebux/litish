@@ -310,7 +310,7 @@
           echo "Gopls: $(gopls version)"
           ${commonVersions}
         '';
-      ops = mkShell "ops" ([ kubectl cilium hubble flux helm terraform pkgs.ansible sshtui pkgs.mongodb-tools pkgs.mongosh pkgs.redis pkgs.postgresql pkgs.podman-compose pkgs.podman ]
+      ops = mkShell "ops" ([ kubectl cilium hubble flux helm terraform pkgs.k9s pkgs.ansible sshtui pkgs.mongodb-tools pkgs.mongosh pkgs.redis pkgs.postgresql pkgs.podman-compose pkgs.podman ]
         ++ lspOps
       ) opsCompletions ''
           mkdir -p ${devDir}/.kube
@@ -319,6 +319,7 @@
           echo "Kubectl:   $(kubectl version --client --short 2>/dev/null || kubectl version --client)"
           echo "Cilium:    $(cilium version)"
           echo "Hubble:    $(hubble version)"
+          echo "K9s:       $(k9s version --short)"
           echo "Flux:      $(flux --version)"
           echo "Helm:      $(helm version --short)"
           echo "Ansible:   $(ansible --version | head -1)"
