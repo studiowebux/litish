@@ -23,7 +23,8 @@
     kubectl = pkgs.callPackage ./pkgs/kubectl.nix {};
     cilium = pkgs.callPackage ./pkgs/cilium.nix {};
     hubble = pkgs.callPackage ./pkgs/hubble.nix {};
-    kubeseal = pkgs.callPackage ./pkgs/kubeseal.nix {};
+    kubeseal  = pkgs.callPackage ./pkgs/kubeseal.nix {};
+    kustomize = pkgs.callPackage ./pkgs/kustomize.nix {};
     flux = pkgs.callPackage ./pkgs/flux.nix {};
     helm = pkgs.callPackage ./pkgs/helm.nix {};
     terraform = pkgs.callPackage ./pkgs/terraform.nix {};
@@ -311,7 +312,7 @@
           echo "Gopls: $(gopls version)"
           ${commonVersions}
         '';
-      ops = mkShell "ops" ([ kubectl cilium hubble kubeseal flux helm terraform pkgs.k9s pkgs.ansible sshtui pkgs.mongodb-tools pkgs.mongosh pkgs.redis pkgs.postgresql pkgs.podman-compose pkgs.podman ]
+      ops = mkShell "ops" ([ kubectl cilium hubble kubeseal kustomize flux helm terraform pkgs.k9s pkgs.ansible sshtui pkgs.mongodb-tools pkgs.mongosh pkgs.redis pkgs.postgresql pkgs.podman-compose pkgs.podman ]
         ++ lspOps
       ) opsCompletions ''
           mkdir -p ${devDir}/.kube
@@ -321,6 +322,7 @@
           echo "Cilium:    $(cilium version)"
           echo "Hubble:    $(hubble version)"
           echo "Kubeseal:  $(kubeseal --version)"
+          echo "Kustomize: $(kustomize version)"
           echo "K9s:       $(k9s version --short)"
           echo "Flux:      $(flux --version)"
           echo "Helm:      $(helm version --short)"

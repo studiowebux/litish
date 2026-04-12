@@ -100,7 +100,7 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 | `hx`   | General editing       | Helix + all LSP servers                                                                         |
 | `deno` | TypeScript/JavaScript | Deno, TypeScript LSP                                                                            |
 | `go`   | Go development        | Go, gopls, staticcheck, gosec, govulncheck                                                      |
-| `ops`  | Infrastructure        | Terraform, kubectl, cilium, hubble, kubeseal, k9s, flux, helm, ansible, sshtui, postgresql, mongodb-tools, mongosh, redis, podman, podman-compose |
+| `ops`  | Infrastructure        | Terraform, kubectl, cilium, hubble, kubeseal, kustomize, k9s, flux, helm, ansible, sshtui, postgresql, mongodb-tools, mongosh, redis, podman, podman-compose |
 | `game` | Game development      | OmniSharp (C#), ols (Odin), lua-language-server                                                 |
 | `ai`   | AI/ML                 | Pyright, ruff                                                                                   |
 | `net`  | Network analysis      | nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat-gnu, openssl, bandwhich, aria2, sshtui, proxytui |
@@ -120,6 +120,7 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 | [cilium-cli](https://github.com/cilium/cilium-cli)                  | 0.19.2      | Cilium CLI                            |
 | [hubble](https://github.com/cilium/hubble)                          | 1.18.6      | Cilium network observability          |
 | [kubeseal](https://github.com/bitnami-labs/sealed-secrets)          | 0.36.6      | Sealed Secrets CLI                    |
+| [kustomize](https://github.com/kubernetes-sigs/kustomize)           | 5.8.1       | Kubernetes configuration management   |
 | [claude](https://claude.ai/code)                                    | 2.1.101     | Claude Code CLI                       |
 | [deno](https://deno.land)                                           | 2.7.7       | JavaScript/TypeScript runtime         |
 | [flux](https://fluxcd.io)                                           | 2.8.3       | GitOps for Kubernetes                 |
