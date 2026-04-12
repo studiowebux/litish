@@ -33,40 +33,64 @@ sudo launchctl start org.nixos.nix-daemon
 
 ## Setup
 
-Create an encrypted APFS volume:
+Run the install script — it handles everything: volume creation, cloning, path patching, and git config.
 
 ```bash
-diskutil list                                                # find your APFS container (e.g. disk5)
-diskutil apfs addVolume disk5 APFS "studiowebux" -passphrase
+curl -fsSL https://raw.githubusercontent.com/studiowebux/litish/main/install.sh | bash
 ```
 
-Clone and install:
+Or clone first and run locally:
 
 ```bash
-git clone https://github.com/studiowebux/litish.git /Volumes/studiowebux/Projects/litish
-cp /Volumes/studiowebux/Projects/litish/litish /usr/local/bin/litish
-chmod +x /usr/local/bin/litish
+git clone https://github.com/studiowebux/litish.git
+bash litish/install.sh
 ```
 
-Set up a portable git config on the volume:
+### Options
+
+#### `--volume NAME`
+The name of the APFS volume to create. This becomes the mount point at `/Volumes/NAME` and is used as the root for all dev directories. Defaults to `studiowebux`.
 
 ```bash
-mkdir -p /Volumes/studiowebux/Development
-cat > /Volumes/studiowebux/Development/.gitconfig << 'EOF'
-[user]
-    name = Your Name
-    email = your@email.com
-EOF
+bash install.sh --volume mydev
+# Creates /Volumes/mydev and uses it for everything
 ```
 
-### Customizing paths
+#### `--disk diskN`
+The APFS container disk to add the volume to (e.g. `disk3`). The script auto-detects this in most cases — only needed if auto-detection picks the wrong disk or you have multiple APFS containers.
 
-If your volume path differs, update two places:
+```bash
+# Find your disk:
+diskutil list
 
-1. `DEV_DIR` in the `litish` script
-2. `devDir` on line 14 of `flake.nix`
+bash install.sh --disk disk3
+```
 
-Both must match.
+#### `--no-volume`
+Skip volume creation entirely. Use this if the volume already exists and is mounted (e.g. after a reboot where you manually unlocked it).
+
+```bash
+bash install.sh --no-volume
+```
+
+#### `--git-name` and `--git-email`
+Your git identity, written to a `.gitconfig` on the volume so git works correctly inside every shell without touching your home directory. If omitted, the script will prompt you interactively.
+
+```bash
+bash install.sh --git-name "Jane Doe" --git-email "jane@example.com"
+```
+
+### Full example
+
+```bash
+bash install.sh \
+  --volume mydev \
+  --disk disk3 \
+  --git-name "Jane Doe" \
+  --git-email "jane@example.com"
+```
+
+All paths in `flake.nix` and the `litish` script are automatically patched to match the chosen volume name. No manual edits required.
 
 ## Usage
 
