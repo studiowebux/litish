@@ -127,7 +127,7 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 | `ops`  | Infrastructure        | Terraform, kubectl, cilium, hubble, kubeseal, kustomize, k9s, flux, helm, ansible, sshtui, postgresql, mongodb-tools, mongosh, redis, podman, podman-compose |
 | `game` | Game development      | OmniSharp (C#), ols (Odin), lua-language-server                                                 |
 | `ai`   | AI/ML                 | Pyright, ruff                                                                                   |
-| `net`  | Network analysis      | nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat-gnu, openssl, bandwhich, aria2, sshtui, proxytui |
+| `net`  | Network analysis      | nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat-gnu, openssl, bandwhich, aria2, wireguard-tools, sshtui, proxytui |
 | `node` | NodeJS Development    | nodejs_24, typescript-language-server                                                           |
 | `hw`   | Hardware Analysis     | smartmontools                                                                                   |
 | `db`   | Database              | postgresql, mongodb-tools, mongosh, redis                                                       |
@@ -175,7 +175,7 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 
 **Ops shells:** ansible, k9s, postgresql, mongodb-tools, mongosh, redis, podman, podman-compose
 
-**Network (`net` shell):** nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat-gnu, openssl, bandwhich, aria2
+**Network (`net` shell):** nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat-gnu, openssl, bandwhich, aria2, wireguard-tools
 
 **Shell-specific:** nodejs_24 (`node`), smartmontools (`hw`)
 

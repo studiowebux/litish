@@ -364,6 +364,7 @@
         pkgs.jq
         pkgs.bandwhich
         pkgs.aria2
+        pkgs.wireguard-tools
       ] hxCompletions ''
           echo "Nmap:      $(nmap --version | head -1)"
           echo "Mtr:       $(mtr --version)"
@@ -378,6 +379,7 @@
           echo "Jq:        $(jq --version)"
           echo "Bandwhich: $(bandwhich --version)"
           echo "Aria2:     $(aria2c --version | head -1)"
+          echo "Wg:        $(wg --version)"
           echo "Sshtui:   $(sshtui --version)"
           echo "Proxytui: $(proxytui -version)"
           ${commonVersions}
