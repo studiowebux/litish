@@ -418,9 +418,16 @@
           ${commonVersions}
         '';
 
-        keyboard = mkShell "keyboard" ([ pkgs.qmk ]) hxCompletions ''
-          ${commonVersions}
-        '';
+        keyboard =
+          mkShell "keyboard"
+            ([
+              pkgs.qmk
+              pkgs.dos2unix
+            ])
+            hxCompletions
+            ''
+              ${commonVersions}
+            '';
 
         net =
           mkShell "net"
