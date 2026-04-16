@@ -418,6 +418,12 @@
           ${commonVersions}
         '';
 
+
+        python = mkShell "python" ([ pkgs.python310 ]) hxCompletions ''
+          ${commonVersions}
+        '';
+
+
         keyboard =
           mkShell "keyboard"
             ([

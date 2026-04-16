@@ -145,7 +145,7 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 | [hubble](https://github.com/cilium/hubble)                          | 1.18.6      | Cilium network observability          |
 | [kubeseal](https://github.com/bitnami-labs/sealed-secrets)          | 0.36.6      | Sealed Secrets CLI                    |
 | [kustomize](https://github.com/kubernetes-sigs/kustomize)           | 5.8.1       | Kubernetes configuration management   |
-| [claude](https://claude.ai/code)                                    | 2.1.104     | Claude Code CLI                       |
+| [claude](https://claude.ai/code)                                    | 2.1.112     | Claude Code CLI                       |
 | [deno](https://deno.land)                                           | 2.7.7       | JavaScript/TypeScript runtime         |
 | [flux](https://fluxcd.io)                                           | 2.8.3       | GitOps for Kubernetes                 |
 | [gh](https://cli.github.com)                                        | 2.88.1      | GitHub CLI                            |
