@@ -126,7 +126,8 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 | `go`   | Go development        | Go, gopls, staticcheck, gosec, govulncheck                                                      |
 | `ops`  | Infrastructure        | Terraform, kubectl, cilium, hubble, kubeseal, kustomize, k9s, flux, helm, ansible, sshtui, postgresql, mongodb-tools, mongosh, redis, podman, podman-compose |
 | `game` | Game development      | OmniSharp (C#), ols (Odin), lua-language-server                                                 |
-| `ai`   | AI/ML                 | Pyright, ruff                                                                                   |
+| `ai`   | AI/ML                 | Python 3, pyright, ruff                                                                         |
+| `python` | Multi-version Python | Python 3.10, 3.11, 3.12                                                                       |
 | `net`  | Network analysis      | nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat-gnu, openssl, bandwhich, aria2, wireguard-tools, sshtui, proxytui |
 | `node` | NodeJS Development    | nodejs_24, typescript-language-server                                                           |
 | `hw`   | Hardware Analysis     | smartmontools                                                                                   |
@@ -145,7 +146,7 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 | [hubble](https://github.com/cilium/hubble)                          | 1.18.6      | Cilium network observability          |
 | [kubeseal](https://github.com/bitnami-labs/sealed-secrets)          | 0.36.6      | Sealed Secrets CLI                    |
 | [kustomize](https://github.com/kubernetes-sigs/kustomize)           | 5.8.1       | Kubernetes configuration management   |
-| [claude](https://claude.ai/code)                                    | 2.1.112     | Claude Code CLI                       |
+| [claude](https://claude.ai/code)                                    | 2.1.114     | Claude Code CLI                       |
 | [deno](https://deno.land)                                           | 2.7.7       | JavaScript/TypeScript runtime         |
 | [flux](https://fluxcd.io)                                           | 2.8.3       | GitOps for Kubernetes                 |
 | [gh](https://cli.github.com)                                        | 2.88.1      | GitHub CLI                            |

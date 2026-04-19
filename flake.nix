@@ -69,7 +69,6 @@
         cerveau
         claude
         lspmcp
-        pkgs.python3
       ];
 
       # Specialized LSP groups
@@ -418,11 +417,20 @@
           ${commonVersions}
         '';
 
-
-        python = mkShell "python" ([ pkgs.python310 ]) hxCompletions ''
-          ${commonVersions}
-        '';
-
+        python =
+          mkShell "python"
+            ([
+              pkgs.python310
+              pkgs.python311
+              pkgs.python312
+            ])
+            hxCompletions
+            ''
+              echo "Python 3.10: $(python3.10 --version)"
+              echo "Python 3.11: $(python3.11 --version)"
+              echo "Python 3.12: $(python3.12 --version)"
+              ${commonVersions}
+            '';
 
         keyboard =
           mkShell "keyboard"
@@ -476,7 +484,8 @@
               ${commonVersions}
             '';
 
-        ai = mkShell "ai" ([ ] ++ lspPython) hxCompletions ''
+        ai = mkShell "ai" ([ pkgs.python3 ] ++ lspPython) hxCompletions ''
+          echo "Python:  $(python3 --version)"
           ${commonVersions}
         '';
 
