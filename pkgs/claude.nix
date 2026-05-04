@@ -2,11 +2,11 @@
 
 stdenv.mkDerivation rec {
   pname   = "claude-code";
-  version = "2.1.119";
+  version = "2.1.128";
 
   src = fetchurl {
     url  = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/${version}/darwin-arm64/claude";
-    hash = "sha256-Mds0RDCdXQ+Lheh4Li3NhvMffkjBoeg9abCSaMe0+aI=";
+    hash = "sha256-GlauTNFxung5/CsD1VgCL/rrtWk75TLY88NEcxBj6Xk=";
   };
 
   dontUnpack = true;
