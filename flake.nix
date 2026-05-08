@@ -186,6 +186,10 @@
         export HELM_CACHE_HOME=${devDir}/.cache/helm
         export HELM_DATA_HOME=${devDir}/.data/helm
 
+        # AWS CLI
+        export AWS_CONFIG_FILE=${devDir}/.config/aws/config
+        export AWS_SHARED_CREDENTIALS_FILE=${devDir}/.config/aws/credentials
+
         # Terraform
         export TF_DATA_DIR=${devDir}/.terraform
         export TF_PLUGIN_CACHE_DIR=${devDir}/.terraform/plugin-cache
@@ -208,6 +212,7 @@
         export DOTNET_CLI_TELEMETRY_OPTOUT=1
         export DOTNET_NOLOGO=1
         export SAM_CLI_TELEMETRY=0
+        export AWS_CLI_AUTO_PROMPT=off
         export CHECKPOINT_DISABLE=1
         export ANSIBLE_NOCOWS=1
         export ANSIBLE_NO_LOG=0
@@ -393,6 +398,7 @@
             ''
               mkdir -p ${devDir}/.kube
               mkdir -p ${devDir}/.terraform/plugin-cache
+              mkdir -p ${devDir}/.config/aws
               echo "Terraform: $(terraform version | head -1)"
               echo "Kubectl:   $(kubectl version --client --short 2>/dev/null || kubectl version --client)"
               echo "Cilium:    $(cilium version)"
