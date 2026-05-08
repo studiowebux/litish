@@ -385,6 +385,7 @@
                 pkgs.postgresql
                 pkgs.podman-compose
                 pkgs.podman
+                pkgs.awscli2
               ]
               ++ lspOps
             )
@@ -409,6 +410,7 @@
               echo "Psql:           $(psql --version)"
               echo "Podman:         $(podman --version)"
               echo "Podman-compose: $(podman-compose -v)"
+              echo "AWS CLI:        $(aws --version)"
 
               ${commonVersions}
             '';
