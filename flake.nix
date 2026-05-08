@@ -97,6 +97,7 @@
       fluxCompletion = "flux completion zsh > $COMP_DIR/_flux";
       helmCompletion = "helm completion zsh > $COMP_DIR/_helm";
       terraformCompletion = ''printf '#compdef terraform\nautoload -U +X bashcompinit && bashcompinit\ncomplete -o nospace -C terraform terraform\n' > $COMP_DIR/_terraform'';
+      awsCompletion = ''printf '#compdef aws\nautoload -U +X bashcompinit && bashcompinit\ncomplete -C aws_completer aws\n' > $COMP_DIR/_aws'';
 
       nodeCompletion = "npm completion > $COMP_DIR/_npm";
 
@@ -133,6 +134,7 @@
         ${fluxCompletion}
         ${helmCompletion}
         ${terraformCompletion}
+        ${awsCompletion}
       '';
 
       commonVersions = ''
