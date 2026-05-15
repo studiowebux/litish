@@ -44,6 +44,7 @@
       lspmcp = pkgs.callPackage ./pkgs/lspmcp.nix { };
       bujotui = pkgs.callPackage ./pkgs/bujotui.nix { };
       bujotui-mcp = pkgs.callPackage ./pkgs/bujotui-mcp.nix { };
+      spacetimedb = pkgs.callPackage ./pkgs/spacetimedb.nix { };
 
       commonPackages = [
         helix
@@ -294,6 +295,7 @@
                 pkgs.postgresql
                 pkgs.podman-compose
                 pkgs.podman
+                spacetimedb
               ]
               ++ lspTs
               ++ lspPython
@@ -328,6 +330,7 @@
               echo "Psql:           $(psql --version)"
               echo "Podman:         $(podman --version)"
               echo "Podman-compose: $(podman-compose -v)"
+              echo "Spacetime:      $(spacetime version)"
 
               ${commonVersions}
             '';
@@ -338,8 +341,9 @@
               ${commonVersions}
             '';
 
-        deno = mkShell "deno" ([ deno ] ++ lspTs) denoCompletions ''
-          echo "Deno: $(deno --version)"
+        deno = mkShell "deno" ([ deno spacetimedb ] ++ lspTs) denoCompletions ''
+          echo "Deno:      $(deno --version)"
+          echo "Spacetime: $(spacetime version)"
           ${commonVersions}
         '';
 
@@ -396,6 +400,7 @@
                 pkgs.podman-compose
                 pkgs.podman
                 pkgs.awscli2
+                spacetimedb
               ]
               ++ lspOps
             )
@@ -422,6 +427,7 @@
               echo "Podman:         $(podman --version)"
               echo "Podman-compose: $(podman-compose -v)"
               echo "AWS CLI:        $(aws --version)"
+              echo "Spacetime:      $(spacetime version)"
 
               ${commonVersions}
             '';
@@ -507,11 +513,12 @@
           ${commonVersions}
         '';
 
-        db = mkShell "db" [ pkgs.redis pkgs.postgresql pkgs.mongodb-tools pkgs.mongosh ] hxCompletions ''
-          echo "Redis-cli: $(redis-cli --version)"
-          echo "Psql:      $(psql --version)"
-          echo "Mongodump: $(mongodump --version 2>&1 | head -1)"
-          echo "Mongosh:   $(mongosh --version)"
+        db = mkShell "db" [ pkgs.redis pkgs.postgresql pkgs.mongodb-tools pkgs.mongosh spacetimedb ] hxCompletions ''
+          echo "Redis-cli:   $(redis-cli --version)"
+          echo "Psql:        $(psql --version)"
+          echo "Mongodump:   $(mongodump --version 2>&1 | head -1)"
+          echo "Mongosh:     $(mongosh --version)"
+          echo "Spacetime:   $(spacetime version)"
           ${commonVersions}
         '';
 
