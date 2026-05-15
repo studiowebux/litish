@@ -1,4 +1,4 @@
-{ stdenv, fetchurl }:
+{ stdenv, fetchurl, gnutar }:
 
 stdenv.mkDerivation rec {
   pname   = "spacetimedb";
@@ -9,12 +9,15 @@ stdenv.mkDerivation rec {
     hash = "sha256-Ci1m1LRR9A+BiGm47vs5ZVczdvGnxo5koBHVXEsUMkg=";
   };
 
-  dontBuild = true;
+  dontUnpack = true;
+  dontBuild  = true;
+
+  nativeBuildInputs = [ gnutar ];
 
   installPhase = ''
     mkdir -p $out/bin
-    cp spacetimedb-cli $out/bin/spacetime
-    cp spacetimedb-standalone $out/bin/spacetimedb-standalone
+    tar -xzf $src -C $out/bin
+    mv $out/bin/spacetimedb-cli $out/bin/spacetime
     chmod +x $out/bin/spacetime $out/bin/spacetimedb-standalone
   '';
 
