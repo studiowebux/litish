@@ -6,7 +6,7 @@ stdenv.mkDerivation rec {
 
   src = fetchurl {
     url  = "https://github.com/clockworklabs/SpacetimeDB/releases/download/v${version}/spacetime-aarch64-apple-darwin.tar.gz";
-    hash = "sha256-ok/F04D3WfubVdNjY7a9d7AsPeKpogLitcj5e/AToeY=";
+    hash = "sha256-Ci1m1LRR9A+BiGm47vs5ZVczdvGnxo5koBHVXEsUMkg=";
   };
 
   dontBuild = true;
