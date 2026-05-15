@@ -222,6 +222,9 @@
         export HELM_NO_UPDATE_NOTIFIER=1
         export CERVEAU_SKIP_BINARY_UPDATE=1
 
+        # Xcode CLI tools (system-provided, not reproducible)
+        export PATH="$(xcode-select -p)/usr/bin:$PATH"
+
         setopt INTERACTIVE_COMMENTS
 
         COMP_DIR=${devDir}/.cache/zsh-completions/${name}
