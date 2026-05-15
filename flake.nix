@@ -341,8 +341,9 @@
               ${commonVersions}
             '';
 
-        deno = mkShell "deno" ([ deno ] ++ lspTs) denoCompletions ''
-          echo "Deno: $(deno --version)"
+        deno = mkShell "deno" ([ deno spacetimedb ] ++ lspTs) denoCompletions ''
+          echo "Deno:      $(deno --version)"
+          echo "Spacetime: $(spacetime version)"
           ${commonVersions}
         '';
 
