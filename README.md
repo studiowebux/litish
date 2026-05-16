@@ -165,6 +165,7 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 | [restcli](https://github.com/studiowebux/restcli)                   | 0.0.41      | REST API client TUI                   |
 | [sshtui](https://github.com/studiowebux/sshtui)                     | 0.0.3       | SSH connection manager TUI            |
 | [terraform](https://www.terraform.io)                               | 1.14.8      | Infrastructure as code                |
+| [tea](https://gitea.com/gitea/tea)                                  | 0.14.1      | Gitea CLI                             |
 | [terraform-ls](https://github.com/hashicorp/terraform-ls)           | 0.38.6      | Terraform language server             |
 | [timeago](https://github.com/studiowebux/timeago)                   | 1.0.2       | Timestamp converter                   |
 
