@@ -45,6 +45,7 @@
       bujotui = pkgs.callPackage ./pkgs/bujotui.nix { };
       bujotui-mcp = pkgs.callPackage ./pkgs/bujotui-mcp.nix { };
       spacetimedb = pkgs.callPackage ./pkgs/spacetimedb.nix { };
+      tea = pkgs.callPackage ./pkgs/tea.nix { };
 
       commonPackages = [
         helix
@@ -55,6 +56,7 @@
         pkgs.lazygit
         pkgs.yq-go
         gh
+        tea
         pkgs.git
         pkgs.zsh
         pkgs.nil # nix lsp
@@ -69,6 +71,7 @@
         bujotui-mcp
         cerveau
         claude
+        pkgs.python3
         lspmcp
       ];
 
@@ -89,6 +92,7 @@
 
       cerveauCompletion = "cerveau completion zsh > $COMP_DIR/_cerveau";
       ghCompletion = "gh completion -s zsh > $COMP_DIR/_gh";
+      teaCompletion = "tea autocomplete zsh > $COMP_DIR/_tea";
       denoCompletion = "deno completions zsh > $COMP_DIR/_deno";
       kubectlCompletion = "kubectl completion zsh > $COMP_DIR/_kubectl";
       ciliumCompletion = "cilium completion zsh > $COMP_DIR/_cilium";
@@ -104,28 +108,33 @@
 
       nodeCompletions = ''
         ${ghCompletion}
+        ${teaCompletion}
         ${cerveauCompletion}
         ${nodeCompletion}
       '';
 
       denoCompletions = ''
         ${ghCompletion}
+        ${teaCompletion}
         ${denoCompletion}
         ${cerveauCompletion}
       '';
 
       goCompletions = ''
         ${ghCompletion}
+        ${teaCompletion}
         ${cerveauCompletion}
       '';
 
       hxCompletions = ''
         ${ghCompletion}
+        ${teaCompletion}
         ${cerveauCompletion}
       '';
 
       opsCompletions = ''
         ${ghCompletion}
+        ${teaCompletion}
         ${cerveauCompletion}
         ${kubectlCompletion}
         ${ciliumCompletion}
