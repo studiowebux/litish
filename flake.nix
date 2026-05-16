@@ -155,6 +155,8 @@
         echo "Lspmcp:  $(lspmcp -version)"
         echo "Bujotui: $(bujotui version)"
         echo "Restcli:     $(restcli --version)"
+        echo "Tea:         $(tea --version)"
+        echo "Python:      $(python3 --version)"
       '';
 
       mkPrompt = name: completions: ''
