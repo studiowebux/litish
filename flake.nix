@@ -46,6 +46,7 @@
       bujotui-mcp = pkgs.callPackage ./pkgs/bujotui-mcp.nix { };
       spacetimedb = pkgs.callPackage ./pkgs/spacetimedb.nix { };
       tea = pkgs.callPackage ./pkgs/tea.nix { };
+      odin = pkgs.callPackage ./pkgs/odin.nix { };
 
       commonPackages = [
         helix
@@ -307,6 +308,7 @@
                 pkgs.podman-compose
                 pkgs.podman
                 spacetimedb
+                odin
               ]
               ++ lspTs
               ++ lspPython
@@ -342,6 +344,7 @@
               echo "Podman:         $(podman --version)"
               echo "Podman-compose: $(podman-compose -v)"
               echo "Spacetime:      $(spacetime version)"
+              echo "Odin:           $(odin version)"
 
               ${commonVersions}
             '';
@@ -443,7 +446,8 @@
               ${commonVersions}
             '';
 
-        game = mkShell "game" ([ ] ++ lspCsharp ++ lspOdin ++ lspLua) hxCompletions ''
+        game = mkShell "game" ([ odin ] ++ lspCsharp ++ lspOdin ++ lspLua) hxCompletions ''
+          echo "Odin: $(odin version)"
           ${commonVersions}
         '';
 

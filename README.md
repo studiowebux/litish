@@ -125,7 +125,7 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 | `deno` | TypeScript/JavaScript | Deno, TypeScript LSP                                                                            |
 | `go`   | Go development        | Go, gopls, staticcheck, gosec, govulncheck                                                      |
 | `ops`  | Infrastructure        | Terraform, kubectl, cilium, hubble, kubeseal, kustomize, k9s, flux, helm, ansible, sshtui, postgresql, mongodb-tools, mongosh, redis, podman, podman-compose, awscli2 |
-| `game` | Game development      | OmniSharp (C#), ols (Odin), lua-language-server                                                 |
+| `game` | Game development      | Odin compiler, OmniSharp (C#), ols (Odin), lua-language-server                                  |
 | `ai`   | AI/ML                 | Python 3, pyright, ruff                                                                         |
 | `python` | Multi-version Python | Python 3.10, 3.11, 3.12                                                                       |
 | `net`  | Network analysis      | nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat-gnu, openssl, bandwhich, aria2, wireguard-tools, sshtui, proxytui |
@@ -159,6 +159,7 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 | [lspmcp](https://github.com/studiowebux/lspmcp)                     | 0.1.0       | LSP to MCP bridge                     |
 | [lua-language-server](https://github.com/LuaLS/lua-language-server) | 3.17.1      | Lua language server                   |
 | [minimaldoc](https://github.com/studiowebux/minimaldoc)             | 1.6.0       | Documentation generator               |
+| [odin](https://odin-lang.org)                                       | dev-2026-03 | Odin compiler (built from source)     |
 | [ols](https://github.com/DanielGaworworski/ols)                     | dev-2026-03 | Odin language server                  |
 | [omnisharp](https://github.com/OmniSharp/omnisharp-roslyn)          | 1.39.15     | C# language server                    |
 | [proxytui](https://github.com/studiowebux/proxytui)                 | 0.2.0       | TUI proxy manager                     |
