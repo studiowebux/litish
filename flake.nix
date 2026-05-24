@@ -64,6 +64,7 @@
         pkgs.yaml-language-server # yaml lsp
         pkgs.nodePackages.bash-language-server # bash lsp
         pkgs.nodePackages.prettier # formatter
+        pkgs.pgformatter # sql formatter (pg_format)
         pkgs.vscode-langservers-extracted # json, html, css lsp
         pkgs.jq
         restcli
@@ -158,6 +159,7 @@
         echo "Restcli:     $(restcli --version)"
         echo "Tea:         $(tea --version)"
         echo "Python:      $(python3 --version)"
+        echo "Pg_format:   $(pg_format --version 2>&1 | head -1)"
       '';
 
       mkPrompt = name: completions: ''

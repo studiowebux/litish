@@ -174,7 +174,7 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 
 **Common (all shells):** git, zsh, jq, fd, ripgrep, fzf, lazygit, yq-go, python3, neovim
 
-**LSP / formatters:** nil (Nix LSP), yaml-language-server, bash-language-server, prettier, vscode-langservers-extracted (JSON/HTML/CSS LSP), typescript-language-server, pyright, ruff, dockerfile-language-server
+**LSP / formatters:** nil (Nix LSP), yaml-language-server, bash-language-server, prettier, pgformatter (pg_format), vscode-langservers-extracted (JSON/HTML/CSS LSP), typescript-language-server, pyright, ruff, dockerfile-language-server
 
 **Ops shells:** ansible, k9s, postgresql, mongodb-tools, mongosh, redis, podman, podman-compose, awscli2
 
