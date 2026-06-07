@@ -147,14 +147,15 @@ else
   ok "Cloned to ${LITISH_DIR}"
 fi
 
-# ── 5. Sync volume name into flake.nix and litish script ─────────────────────
+# ── 5. Sync volume path into the litish wrapper ──────────────────────────────
 
 if [[ "$VOLUME_NAME" != "studiowebux" ]]; then
-  info "Patching paths for volume name '${VOLUME_NAME}'"
+  info "Patching volume path into litish wrapper"
 
-  sed -i '' "s|/Volumes/studiowebux/Development|${DEV_DIR}|g" "${LITISH_DIR}/flake.nix"
+  # Only the wrapper needs the path: it exports LITISH_DEV_DIR, which the
+  # GitHub flake resolves at runtime. flake.nix carries no per-user path.
   sed -i '' "s|/Volumes/studiowebux/Development|${DEV_DIR}|g" "${LITISH_DIR}/litish"
-  ok "Paths updated in flake.nix and litish"
+  ok "litish wrapper points at ${DEV_DIR}"
 fi
 
 # ── 6. Install litish binary ──────────────────────────────────────────────────

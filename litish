@@ -2,6 +2,10 @@
 FLAKE="github:studiowebux/litish"
 DEV_DIR="/Volumes/studiowebux/Development"
 
+# Hand the dev-dir to the flake at runtime so the published GitHub flake honors
+# this machine's volume without needing a local clone or edits.
+export LITISH_DEV_DIR="$DEV_DIR"
+
 shell="${1:-all}"
 
 case "$shell" in

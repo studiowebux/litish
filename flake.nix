@@ -12,7 +12,10 @@
 
       pkgs = nixpkgs.legacyPackages.${system};
 
-      devDir = "/Volumes/studiowebux/Development";
+      # Resolved at runtime (not eval time) so the published GitHub flake honors
+      # each user's volume via $LITISH_DEV_DIR, falling back to the default when
+      # unset. The litish wrapper exports LITISH_DEV_DIR before `nix develop`.
+      devDir = "\${LITISH_DEV_DIR:-/Volumes/studiowebux/Development}";
 
       deno = pkgs.callPackage ./pkgs/deno.nix { };
       helix = pkgs.callPackage ./pkgs/helix.nix { };
