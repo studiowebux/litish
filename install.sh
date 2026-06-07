@@ -31,7 +31,8 @@ VOLUME_PATH="/Volumes/${VOLUME_NAME}"
 DEV_DIR="${VOLUME_PATH}/Development"
 PROJECTS_DIR="${VOLUME_PATH}/Projects"
 LITISH_DIR="${PROJECTS_DIR}/litish"
-LITISH_BIN="/usr/local/bin/litish"
+LITISH_BIN_DIR="${DEV_DIR}/.local/bin"
+LITISH_BIN="${LITISH_BIN_DIR}/litish"
 REPO="https://github.com/studiowebux/litish.git"
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -111,6 +112,7 @@ info "Creating directory structure"
 
 dirs=(
   "${DEV_DIR}"
+  "${LITISH_BIN_DIR}"
   "${DEV_DIR}/.claude"
   "${DEV_DIR}/.config"
   "${DEV_DIR}/.cache"
@@ -219,6 +221,11 @@ echo "  Repo:    ${LITISH_DIR}"
 echo "  CLI:     ${LITISH_BIN}"
 echo
 echo "Next steps:"
+if ! command -v litish &>/dev/null; then
+  echo "  0. Add the on-volume bin to your PATH (in ~/.zshrc or ~/.bashrc):"
+  echo "       export PATH=\"${LITISH_BIN_DIR}:\$PATH\""
+  echo
+fi
 echo "  1. litish        — enter the default shell (downloads packages on first run)"
 echo "  2. litish go     — Go shell"
 echo "  3. litish ops    — Ops shell (terraform, kubectl, podman...)"
