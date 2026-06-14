@@ -366,7 +366,7 @@
           ${commonVersions}
         '';
 
-        go = mkShell "go" [ go gopls ] goCompletions ''
+        go = mkShell "go" [ go gopls pkgs.postgresql ] goCompletions ''
           export GOROOT=${go}
           export GOPATH=${devDir}/go
           export GOCACHE=${devDir}/.cache/go-build
@@ -395,6 +395,7 @@
 
           echo "Go:    $(go version)"
           echo "Gopls: $(gopls version)"
+          echo "Psql:  $(psql --version)"
           ${commonVersions}
         '';
         ops =
