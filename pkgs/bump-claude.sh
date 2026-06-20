@@ -7,6 +7,13 @@
 # hash, and rewrites the version + hash fields in pkgs/claude.nix.
 set -euo pipefail
 
+# GNU sed: -i with no suffix; BSD sed: -i '' (empty string required)
+if sed --version 2>/dev/null | grep -q GNU; then
+  sed_i() { sed -i "$@"; }
+else
+  sed_i() { sed -i '' "$@"; }
+fi
+
 VERSION="${1:-}"
 if [[ -z "$VERSION" ]]; then
   echo "usage: $0 <version>   (e.g. $0 2.1.168)" >&2
@@ -38,7 +45,7 @@ SRI="$(nix hash convert --hash-algo sha256 --to sri "$NIX32" 2>/dev/null \
 echo "New hash: ${SRI}"
 
 # Rewrite version (first match) and the claude hash line.
-sed -i '' -E \
+sed_i -E \
   -e "0,/version[[:space:]]*=.*/s//version = \"${VERSION}\";/" \
   -e "s|hash[[:space:]]*=[[:space:]]*\"sha256-[^\"]*\";|hash = \"${SRI}\";|" \
   "$NIX_FILE"
