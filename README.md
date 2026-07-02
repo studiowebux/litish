@@ -147,7 +147,7 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 | [kubeseal](https://github.com/bitnami-labs/sealed-secrets)          | 0.36.6      | Sealed Secrets CLI                    |
 | [kustomize](https://github.com/kubernetes-sigs/kustomize)           | 5.8.1       | Kubernetes configuration management   |
 | [claude](https://claude.ai/code)                                    | 2.1.141     | Claude Code CLI                       |
-| [deno](https://deno.land)                                           | 2.7.7       | JavaScript/TypeScript runtime         |
+| [deno](https://deno.land)                                           | 2.9.1       | JavaScript/TypeScript runtime         |
 | [flux](https://fluxcd.io)                                           | 2.8.3       | GitOps for Kubernetes                 |
 | [gh](https://cli.github.com)                                        | 2.88.1      | GitHub CLI                            |
 | [go](https://go.dev)                                                | 1.26.1      | Go programming language               |
@@ -199,6 +199,13 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 4. Update version and hash in `pkgs/<tool>.nix`
 5. Push to GitHub
 6. Run `litish <shell>` to verify
+
+Example (deno 2.9.1):
+
+```bash
+nix-prefetch-url --type sha256 https://github.com/denoland/deno/releases/download/v2.9.1/deno-aarch64-apple-darwin.zip
+nix hash to-sri --type sha256 <hash-from-previous-command>
+```
 
 ## Regenerate completions
 

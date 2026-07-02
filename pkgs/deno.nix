@@ -2,16 +2,16 @@
 
 stdenv.mkDerivation rec {
   pname = "deno";
-  version = "2.7.7";
+  version = "2.9.1";
 
   src = fetchurl {
     url = "https://github.com/denoland/deno/releases/download/v${version}/deno-aarch64-apple-darwin.zip";
-    hash = "sha256-Xw70fnBuza5eYkjjO/NnNAsdhvh4hvYEGf50UPb/w5o=";
+    hash = "sha256-7jRzUCEY6rMB7Kk6prMdawtsFgLQ9Z5MuJ1KJisS9uc=";
   };
 
   dontBuild = true;
   sourceRoot = ".";
-  
+
   nativeBuildInputs = [ unzip ];
 
   installPhase = ''
