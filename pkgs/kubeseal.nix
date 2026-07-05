@@ -3,11 +3,11 @@
 
 stdenv.mkDerivation rec {
   pname   = "kubeseal";
-  version = "0.36.6";
+  version = "0.38.4";
 
   src = fetchurl {
     url  = "https://github.com/bitnami-labs/sealed-secrets/releases/download/v${version}/kubeseal-${version}-darwin-arm64.tar.gz";
-    hash = "sha256-u2oc3y9uLPA0AYyDgisnMysaFGkaTHnHVA5nnKICUsA=";
+    hash = "sha256-T+n4+7bsfvJ78PQBTyhG+LNjrnh6MfxrqcuwD9QPtm0=";
   };
 
   dontBuild  = true;

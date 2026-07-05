@@ -2,15 +2,15 @@
 
 stdenv.mkDerivation rec {
   pname = "gh";
-  version = "2.88.1";
+  version = "2.96.0";
 
   src = fetchurl {
-    url = "https://github.com/cli/cli/releases/download/v${version}/gh_2.88.1_macOS_arm64.zip";
-    hash = "sha256-vb7tSCHUUO8NFIIdhWwFswirRJ+/YFJ/KY2W+/XSRHs=";
+    url = "https://github.com/cli/cli/releases/download/v${version}/gh_${version}_macOS_arm64.zip";
+    hash = "sha256-8joMN9ljqsw77XA8y9WbQcXKIhAfq38A6yt8rSOrpGM=";
   };
 
   dontBuild = true;
-  sourceRoot = "gh_2.88.1_macOS_arm64";
+  sourceRoot = "gh_${version}_macOS_arm64";
 
   nativeBuildInputs = [ unzip ];
 

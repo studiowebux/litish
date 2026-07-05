@@ -3,11 +3,11 @@
 
 stdenv.mkDerivation rec {
   pname   = "terraform-ls";
-  version = "0.38.6";
+  version = "0.38.8";
 
   src = fetchzip {
     url  = "https://releases.hashicorp.com/terraform-ls/${version}/terraform-ls_${version}_darwin_arm64.zip";
-    hash = "sha256-oRXQYl+2aSBAZVVjGr7ZG3xb5oLQO7qfsoC+1QiASbQ=";
+    hash = "sha256-mbh0WYGdQlbxe36wpKP3kGwI+mMgfml2lrxEhSXHnC0=";
     stripRoot = false;
   };
 

@@ -2,11 +2,11 @@
 
 stdenv.mkDerivation rec {
   pname   = "spacetimedb";
-  version = "2.2.0";
+  version = "2.6.1";
 
   src = fetchurl {
     url  = "https://github.com/clockworklabs/SpacetimeDB/releases/download/v${version}/spacetime-aarch64-apple-darwin.tar.gz";
-    hash = "sha256-Ci1m1LRR9A+BiGm47vs5ZVczdvGnxo5koBHVXEsUMkg=";
+    hash = "sha256-RzYDXpkbum9BbJnAjQLlmFU0vyOHMuqEZPGZBQ5pT58=";
   };
 
   dontUnpack = true;

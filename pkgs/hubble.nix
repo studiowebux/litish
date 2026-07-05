@@ -3,11 +3,11 @@
 
 stdenv.mkDerivation rec {
   pname   = "hubble";
-  version = "1.18.6";
+  version = "1.19.4";
 
   src = fetchurl {
     url  = "https://github.com/cilium/hubble/releases/download/v${version}/hubble-darwin-arm64.tar.gz";
-    hash = "sha256-WOx/dMTvYPn54qpho17JwUyDebIKlviINRaEUGiSqsg=";
+    hash = "sha256-djRTKlC64n6D36qKKosZcQJM0ed4qhXcWeKI2qOvSXg=";
   };
 
   dontBuild  = true;

@@ -49,6 +49,7 @@
       bujotui-mcp = pkgs.callPackage ./pkgs/bujotui-mcp.nix { };
       spacetimedb = pkgs.callPackage ./pkgs/spacetimedb.nix { };
       tea = pkgs.callPackage ./pkgs/tea.nix { };
+      woodpecker-cli = pkgs.callPackage ./pkgs/woodpecker-cli.nix { };
       odin = pkgs.callPackage ./pkgs/odin.nix { };
 
       commonPackages = [
@@ -58,9 +59,11 @@
         pkgs.ripgrep
         pkgs.fzf
         pkgs.lazygit
+        pkgs.tmux
         pkgs.yq-go
         gh
         tea
+        woodpecker-cli
         pkgs.git
         pkgs.zsh
         pkgs.nil # nix lsp
@@ -98,6 +101,7 @@
       cerveauCompletion = "cerveau completion zsh > $COMP_DIR/_cerveau";
       ghCompletion = "gh completion -s zsh > $COMP_DIR/_gh";
       teaCompletion = "tea autocomplete zsh > $COMP_DIR/_tea";
+      woodpeckerCompletion = "woodpecker-cli completion zsh > $COMP_DIR/_woodpecker-cli";
       denoCompletion = "deno completions zsh > $COMP_DIR/_deno";
       kubectlCompletion = "kubectl completion zsh > $COMP_DIR/_kubectl";
       ciliumCompletion = "cilium completion zsh > $COMP_DIR/_cilium";
@@ -114,6 +118,7 @@
       nodeCompletions = ''
         ${ghCompletion}
         ${teaCompletion}
+        ${woodpeckerCompletion}
         ${cerveauCompletion}
         ${nodeCompletion}
       '';
@@ -121,6 +126,7 @@
       denoCompletions = ''
         ${ghCompletion}
         ${teaCompletion}
+        ${woodpeckerCompletion}
         ${denoCompletion}
         ${cerveauCompletion}
       '';
@@ -128,18 +134,21 @@
       goCompletions = ''
         ${ghCompletion}
         ${teaCompletion}
+        ${woodpeckerCompletion}
         ${cerveauCompletion}
       '';
 
       hxCompletions = ''
         ${ghCompletion}
         ${teaCompletion}
+        ${woodpeckerCompletion}
         ${cerveauCompletion}
       '';
 
       opsCompletions = ''
         ${ghCompletion}
         ${teaCompletion}
+        ${woodpeckerCompletion}
         ${cerveauCompletion}
         ${kubectlCompletion}
         ${ciliumCompletion}
@@ -161,8 +170,10 @@
         echo "Bujotui: $(bujotui version)"
         echo "Restcli:     $(restcli --version)"
         echo "Tea:         $(tea --version)"
+        echo "Woodpecker:  $(woodpecker-cli --version)"
         echo "Python:      $(python3 --version)"
         echo "Pg_format:   $(pg_format --version 2>&1 | head -1)"
+        echo "Tmux:        $(tmux -V)"
       '';
 
       mkPrompt = name: completions: ''

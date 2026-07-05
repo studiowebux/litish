@@ -3,11 +3,11 @@
 
 stdenv.mkDerivation rec {
   pname   = "cilium-cli";
-  version = "0.19.2";
+  version = "0.19.5";
 
   src = fetchurl {
     url  = "https://github.com/cilium/cilium-cli/releases/download/v${version}/cilium-darwin-arm64.tar.gz";
-    hash = "sha256-wSVL0flHEYBKEnby8vVil6YVqKb6T2ugd+qJXpl+Frs=";
+    hash = "sha256-egWbZenrUNV/sPO+HoSp94cujrkjemCOWEJF1sNv4Mo=";
   };
 
   dontBuild  = true;
