@@ -129,7 +129,11 @@
         fi
         TEA_COMPLETION_EOF
       '';
-      woodpeckerCompletion = "woodpecker-cli completion zsh > $COMP_DIR/_woodpecker-cli";
+      # woodpecker-cli's `completion zsh` output is broken upstream: it prints
+      # a script that calls `--generate-shell-completion`, but the app never
+      # sets EnableShellCompletion, so that flag isn't registered and every
+      # tab-press fails with "flag provided but not defined". Dropped until
+      # upstream fixes it (see cmd/cli/app.go in woodpecker-ci/woodpecker).
       denoCompletion = "deno completions zsh > $COMP_DIR/_deno";
       kubectlCompletion = "kubectl completion zsh > $COMP_DIR/_kubectl";
       ciliumCompletion = "cilium completion zsh > $COMP_DIR/_cilium";
@@ -146,7 +150,6 @@
       nodeCompletions = ''
         ${ghCompletion}
         ${teaCompletion}
-        ${woodpeckerCompletion}
         ${cerveauCompletion}
         ${nodeCompletion}
       '';
@@ -154,7 +157,6 @@
       denoCompletions = ''
         ${ghCompletion}
         ${teaCompletion}
-        ${woodpeckerCompletion}
         ${denoCompletion}
         ${cerveauCompletion}
       '';
@@ -162,21 +164,18 @@
       goCompletions = ''
         ${ghCompletion}
         ${teaCompletion}
-        ${woodpeckerCompletion}
         ${cerveauCompletion}
       '';
 
       hxCompletions = ''
         ${ghCompletion}
         ${teaCompletion}
-        ${woodpeckerCompletion}
         ${cerveauCompletion}
       '';
 
       opsCompletions = ''
         ${ghCompletion}
         ${teaCompletion}
-        ${woodpeckerCompletion}
         ${cerveauCompletion}
         ${denoCompletion}
         ${kubectlCompletion}
