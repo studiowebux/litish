@@ -100,13 +100,41 @@
 
       cerveauCompletion = "cerveau completion zsh > $COMP_DIR/_cerveau";
       ghCompletion = "gh completion -s zsh > $COMP_DIR/_gh";
-      teaCompletion = "tea autocomplete zsh > $COMP_DIR/_tea";
+      # tea has no built-in completion generator; it's an urfave/cli app like
+      # woodpecker-cli, so drive its generic --generate-shell-completion flag.
+      teaCompletion = ''
+        cat > $COMP_DIR/_tea << 'TEA_COMPLETION_EOF'
+        #compdef tea
+        compdef _tea tea
+
+        _tea() {
+        	local -a opts
+        	local current
+        	current=''${words[-1]}
+        	if [[ "$current" == "-"* ]]; then
+        		opts=("''${(@f)$(''${words[@]:0:#words[@]-1} ''${current} --generate-shell-completion)}")
+        	else
+        		opts=("''${(@f)$(''${words[@]:0:#words[@]-1} --generate-shell-completion)}")
+        	fi
+
+        	if [[ "''${opts[1]}" != "" ]]; then
+        		_describe 'values' opts
+        	else
+        		_files
+        	fi
+        }
+
+        if [ "$funcstack[1]" = "_tea" ]; then
+        	_tea
+        fi
+        TEA_COMPLETION_EOF
+      '';
       woodpeckerCompletion = "woodpecker-cli completion zsh > $COMP_DIR/_woodpecker-cli";
       denoCompletion = "deno completions zsh > $COMP_DIR/_deno";
       kubectlCompletion = "kubectl completion zsh > $COMP_DIR/_kubectl";
       ciliumCompletion = "cilium completion zsh > $COMP_DIR/_cilium";
       hubbleCompletion = "hubble completion zsh > $COMP_DIR/_hubble";
-      kubesealCompletion = "kubeseal completion zsh > $COMP_DIR/_kubeseal";
+      # kubeseal is a plain flag-based binary with no completion generator.
       kustomizeCompletion = "kustomize completion zsh > $COMP_DIR/_kustomize";
       fluxCompletion = "flux completion zsh > $COMP_DIR/_flux";
       helmCompletion = "helm completion zsh > $COMP_DIR/_helm";
@@ -150,10 +178,10 @@
         ${teaCompletion}
         ${woodpeckerCompletion}
         ${cerveauCompletion}
+        ${denoCompletion}
         ${kubectlCompletion}
         ${ciliumCompletion}
         ${hubbleCompletion}
-        ${kubesealCompletion}
         ${kustomizeCompletion}
         ${fluxCompletion}
         ${helmCompletion}
@@ -298,6 +326,8 @@
                 kubectl
                 cilium
                 hubble
+                kubeseal
+                kustomize
                 flux
                 helm
                 terraform
@@ -325,6 +355,16 @@
                 pkgs.podman
                 spacetimedb
                 odin
+                pkgs.k9s
+                pkgs.awscli2
+                pkgs.python310
+                pkgs.python311
+                pkgs.python312
+                pkgs.qmk
+                pkgs.dos2unix
+                pkgs.wireguard-tools
+                pkgs.smartmontools
+                pkgs.nodejs_24
               ]
               ++ lspTs
               ++ lspPython
@@ -361,6 +401,17 @@
               echo "Podman-compose: $(podman-compose -v)"
               echo "Spacetime:      $(spacetime version)"
               echo "Odin:           $(odin version)"
+              echo "K9s:            $(k9s version --short)"
+              echo "AWS CLI:        $(aws --version)"
+              echo "Python 3.10:    $(python3.10 --version)"
+              echo "Python 3.11:    $(python3.11 --version)"
+              echo "Python 3.12:    $(python3.12 --version)"
+              echo "Dos2unix:       $(dos2unix --version 2>&1 | head -1)"
+              echo "Wg:             $(wg --version)"
+              echo "Smartctl:       $(smartctl --version | head -1)"
+              echo "Node:           $(node --version)"
+
+              mkdir -p ${devDir}/.config/aws
 
               ${commonVersions}
             '';
