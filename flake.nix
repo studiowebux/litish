@@ -76,6 +76,7 @@
         pkgs.nodePackages.prettier # formatter
         pkgs.pgformatter # sql formatter (pg_format)
         pkgs.vscode-langservers-extracted # json, html, css lsp
+        pkgs.taplo # toml lsp + formatter
         pkgs.jq
         restcli
         timeago

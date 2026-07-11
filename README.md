@@ -1,3 +1,14 @@
+---
+title: Litish
+project: litish
+tags: [nix, devshell, macos]
+status: done
+version: 1.1.0
+author: Claude
+updated_by: Claude
+updated: 2026-07-10
+---
+
 # Litish
 
 **Lite-ish** — a development environment that aims to be lightweight but still packs everything you need. Isolated, reproducible, and entirely off your home directory.
@@ -105,6 +116,8 @@ litish ops      # Infrastructure — terraform, kubectl, flux, helm, ansible
 litish game     # Game dev — C#, Odin, Lua
 litish ai       # AI/ML — Python with pyright and ruff
 litish node     # NodeJS
+litish dotnet   # .NET — SDK + ASP.NET Core runtime, OmniSharp LSP
+litish rust     # Rust
 litish hw       # Linux tools
 litish db       # Postgres, Mongo, redis
 litish net      # Network analysis — nmap, mtr, tcpdump, etc.
@@ -125,11 +138,13 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 | `deno` | TypeScript/JavaScript | Deno, TypeScript LSP                                                                            |
 | `go`   | Go development        | Go, gopls, staticcheck, gosec, govulncheck                                                      |
 | `ops`  | Infrastructure        | Terraform, kubectl, cilium, hubble, kubeseal, kustomize, k9s, flux, helm, ansible, sshtui, postgresql, mongodb-tools, mongosh, redis, podman, podman-compose, awscli2 |
-| `game` | Game development      | Odin compiler, OmniSharp (C#), ols (Odin), lua-language-server                                  |
+| `game` | Game development      | Odin compiler, ols (Odin), omnisharp-roslyn (C#), lua-language-server                            |
 | `ai`   | AI/ML                 | Python 3, pyright, ruff                                                                         |
 | `python` | Multi-version Python | Python 3.10, 3.11, 3.12                                                                       |
 | `net`  | Network analysis      | nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat-gnu, openssl, bandwhich, aria2, wireguard-tools, sshtui, proxytui |
 | `node` | NodeJS Development    | nodejs_24, typescript-language-server                                                           |
+| `dotnet` | .NET Development     | dotnet-sdk 10, aspnetcore-runtime 10, omnisharp-roslyn (C# LSP)                                 |
+| `rust` | Rust Development      | cargo, rustc, rust-analyzer, clippy, rustfmt                                                    |
 | `hw`   | Hardware Analysis     | smartmontools                                                                                   |
 | `db`   | Database              | postgresql, mongodb-tools, mongosh, redis                                                       |
 
@@ -142,45 +157,45 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 | [bujotui](https://github.com/studiowebux/bujotui)                   | 0.2.1       | Bullet journal TUI                    |
 | [bujotui-mcp](https://github.com/studiowebux/bujotui)               | 0.2.1       | Bullet journal TUI MCP server         |
 | [cerveau](https://github.com/studiowebux/cerveau.dev)               | 1.4.3       | Brain manager for Claude Code         |
-| [cilium-cli](https://github.com/cilium/cilium-cli)                  | 0.19.2      | Cilium CLI                            |
-| [hubble](https://github.com/cilium/hubble)                          | 1.18.6      | Cilium network observability          |
-| [kubeseal](https://github.com/bitnami-labs/sealed-secrets)          | 0.36.6      | Sealed Secrets CLI                    |
+| [cilium-cli](https://github.com/cilium/cilium-cli)                  | 0.19.5      | Cilium CLI                            |
+| [hubble](https://github.com/cilium/hubble)                          | 1.19.4      | Cilium network observability          |
+| [kubeseal](https://github.com/bitnami-labs/sealed-secrets)          | 0.38.4      | Sealed Secrets CLI                    |
 | [kustomize](https://github.com/kubernetes-sigs/kustomize)           | 5.8.1       | Kubernetes configuration management   |
-| [claude](https://claude.ai/code)                                    | 2.1.141     | Claude Code CLI                       |
+| [claude](https://claude.ai/code)                                    | 2.1.201     | Claude Code CLI                       |
 | [deno](https://deno.land)                                           | 2.9.1       | JavaScript/TypeScript runtime         |
-| [flux](https://fluxcd.io)                                           | 2.8.3       | GitOps for Kubernetes                 |
-| [gh](https://cli.github.com)                                        | 2.88.1      | GitHub CLI                            |
-| [go](https://go.dev)                                                | 1.26.1      | Go programming language               |
+| [flux](https://fluxcd.io)                                           | 2.9.0       | GitOps for Kubernetes                 |
+| [gh](https://cli.github.com)                                        | 2.96.0      | GitHub CLI                            |
+| [go](https://go.dev)                                                | 1.26.4      | Go programming language               |
 | [gopls](https://pkg.go.dev/golang.org/x/tools/gopls)                | 0.21.1      | Go language server                    |
 | [helix](https://helix-editor.com)                                   | 25.07.1     | Terminal text editor                  |
-| [helm](https://helm.sh)                                             | 4.1.3       | Kubernetes package manager            |
+| [helm](https://helm.sh)                                             | 4.2.2       | Kubernetes package manager            |
 | [helm-ls](https://github.com/mrjosh/helm-ls)                        | 0.5.4       | Helm language server                  |
-| [kubectl](https://kubernetes.io/docs/reference/kubectl)             | 1.35.3      | Kubernetes CLI                        |
+| [kubectl](https://kubernetes.io/docs/reference/kubectl)             | 1.36.2      | Kubernetes CLI                        |
 | [lspmcp](https://github.com/studiowebux/lspmcp)                     | 0.1.0       | LSP to MCP bridge                     |
-| [lua-language-server](https://github.com/LuaLS/lua-language-server) | 3.17.1      | Lua language server                   |
+| [lua-language-server](https://github.com/LuaLS/lua-language-server) | 3.18.2      | Lua language server                   |
 | [minimaldoc](https://github.com/studiowebux/minimaldoc)             | 1.6.0       | Documentation generator               |
-| [odin](https://odin-lang.org)                                       | dev-2026-03 | Odin compiler (built from source)     |
-| [ols](https://github.com/DanielGaworworski/ols)                     | dev-2026-03 | Odin language server                  |
-| [omnisharp](https://github.com/OmniSharp/omnisharp-roslyn)          | 1.39.15     | C# language server                    |
+| [odin](https://odin-lang.org)                                       | dev-2026-06 | Odin compiler (built from source)     |
+| [ols](https://github.com/DanielGavin/ols)                           | dev-2026-05 | Odin language server                  |
 | [proxytui](https://github.com/studiowebux/proxytui)                 | 0.2.0       | TUI proxy manager                     |
 | [restcli](https://github.com/studiowebux/restcli)                   | 0.0.41      | REST API client TUI                   |
 | [sshtui](https://github.com/studiowebux/sshtui)                     | 0.0.3       | SSH connection manager TUI            |
-| [terraform](https://www.terraform.io)                               | 1.14.8      | Infrastructure as code                |
-| [tea](https://gitea.com/gitea/tea)                                  | 0.14.1      | Gitea CLI                             |
-| [terraform-ls](https://github.com/hashicorp/terraform-ls)           | 0.38.6      | Terraform language server             |
+| [terraform](https://www.terraform.io)                               | 1.15.7      | Infrastructure as code                |
+| [tea](https://gitea.com/gitea/tea)                                  | 0.14.2      | Gitea CLI                             |
+| [terraform-ls](https://github.com/hashicorp/terraform-ls)           | 0.38.8      | Terraform language server             |
 | [timeago](https://github.com/studiowebux/timeago)                   | 1.0.2       | Timestamp converter                   |
+| [woodpecker-cli](https://woodpecker-ci.org)                         | 3.16.0      | Woodpecker CI CLI                     |
 
 ### From nixpkgs
 
-**Common (all shells):** git, zsh, jq, fd, ripgrep, fzf, lazygit, yq-go, python3, neovim
+**Common (all shells):** git, zsh, tmux, jq, fd, ripgrep, fzf, lazygit, yq-go, python3, neovim
 
-**LSP / formatters:** nil (Nix LSP), yaml-language-server, bash-language-server, prettier, pgformatter (pg_format), vscode-langservers-extracted (JSON/HTML/CSS LSP), typescript-language-server, pyright, ruff, dockerfile-language-server
+**LSP / formatters:** nil (Nix LSP), yaml-language-server, bash-language-server, prettier, pgformatter (pg_format), vscode-langservers-extracted (JSON/HTML/CSS LSP), typescript-language-server, pyright, ruff, dockerfile-language-server, omnisharp-roslyn (C# LSP), taplo (TOML LSP + formatter)
 
 **Ops shells:** ansible, k9s, postgresql, mongodb-tools, mongosh, redis, podman, podman-compose, awscli2
 
 **Network (`net` shell):** nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat-gnu, openssl, bandwhich, aria2, wireguard-tools
 
-**Shell-specific:** nodejs_24 (`node`), smartmontools (`hw`)
+**Shell-specific:** nodejs_24 (`node`), smartmontools (`hw`), dotnetCorePackages sdk_10_0-bin + aspnetcore_10_0-bin (`dotnet`), cargo/rustc/rust-analyzer/clippy/rustfmt (`rust`)
 
 ## How it works
 
