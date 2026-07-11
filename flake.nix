@@ -39,6 +39,10 @@
       helm-ls = pkgs.callPackage ./pkgs/helm-ls.nix { };
       ols = pkgs.callPackage ./pkgs/ols.nix { };
       omnisharp = pkgs.callPackage ./pkgs/omnisharp.nix { };
+      dotnet = pkgs.dotnetCorePackages.combinePackages [
+        pkgs.dotnetCorePackages.sdk_10_0-bin
+        pkgs.dotnetCorePackages.aspnetcore_10_0-bin
+      ];
       sshtui = pkgs.callPackage ./pkgs/sshtui.nix { };
       minimaldoc = pkgs.callPackage ./pkgs/minimaldoc.nix { };
       restcli = pkgs.callPackage ./pkgs/restcli.nix { };
@@ -96,6 +100,15 @@
       ];
       lspOdin = [ ols ];
       lspCsharp = [ omnisharp ];
+      lspRust = [
+        pkgs.rust-analyzer
+        pkgs.clippy
+        pkgs.rustfmt
+      ];
+      rustToolchain = [
+        pkgs.cargo
+        pkgs.rustc
+      ];
       lspLua = [ lua-language-server ];
 
       cerveauCompletion = "cerveau completion zsh > $COMP_DIR/_cerveau";
@@ -364,6 +377,8 @@
                 pkgs.wireguard-tools
                 pkgs.smartmontools
                 pkgs.nodejs_24
+                dotnet
+                pkgs.icu
               ]
               ++ lspTs
               ++ lspPython
@@ -371,6 +386,8 @@
               ++ lspOdin
               ++ lspCsharp
               ++ lspLua
+              ++ lspRust
+              ++ rustToolchain
             )
             opsCompletions
             ''
@@ -380,6 +397,19 @@
               export PATH=${go}/bin:$GOPATH/bin:$PATH
               mkdir -p ${devDir}/.kube
               mkdir -p ${devDir}/.terraform/plugin-cache
+
+              export DOTNET_ROOT=${dotnet}
+              export DOTNET_CLI_TELEMETRY_OPTOUT=1
+              export DOTNET_NOLOGO=1
+              export NUGET_PACKAGES=${devDir}/.nuget/packages
+              export DOTNET_CLI_HOME=${devDir}
+              export PATH=${devDir}/.dotnet/tools:$PATH
+              mkdir -p ${devDir}/.nuget/packages ${devDir}/.dotnet/tools
+
+              export CARGO_HOME=${devDir}/.cargo
+              export PATH=${devDir}/.cargo/bin:$PATH
+              mkdir -p ${devDir}/.cargo
+
               echo "Deno:      $(deno --version | head -1)"
               echo "Go:        $(go version)"
               echo "Gopls:     $(gopls version)"
@@ -409,6 +439,12 @@
               echo "Wg:             $(wg --version)"
               echo "Smartctl:       $(smartctl --version | head -1)"
               echo "Node:           $(node --version)"
+              echo "Dotnet:         $(dotnet --version)"
+              echo "Rustc:          $(rustc --version)"
+              echo "Cargo:          $(cargo --version)"
+              echo "Rust-analyzer:  $(rust-analyzer --version)"
+              echo "Clippy:         $(cargo-clippy --version)"
+              echo "Rustfmt:        $(rustfmt --version)"
 
               mkdir -p ${devDir}/.config/aws
 
@@ -601,6 +637,35 @@
           echo "Mongodump:   $(mongodump --version 2>&1 | head -1)"
           echo "Mongosh:     $(mongosh --version)"
           echo "Spacetime:   $(spacetime version)"
+          ${commonVersions}
+        '';
+
+        dotnet = mkShell "dotnet" ([ dotnet pkgs.icu ] ++ lspCsharp) hxCompletions ''
+          export DOTNET_ROOT=${dotnet}
+          export DOTNET_CLI_TELEMETRY_OPTOUT=1
+          export DOTNET_NOLOGO=1
+          export NUGET_PACKAGES=${devDir}/.nuget/packages
+          export DOTNET_CLI_HOME=${devDir}
+          export PATH=${devDir}/.dotnet/tools:$PATH
+          mkdir -p ${devDir}/.nuget/packages ${devDir}/.dotnet/tools
+
+          echo "Dotnet: $(dotnet --version)"
+          echo "Note: MonoGame tooling (mgcb, project templates) isn't packaged in nixpkgs."
+          echo "      Install once with: dotnet tool install --global dotnet-mgcb --version <x.y.z>"
+          echo "                         dotnet new install MonoGame.Templates.CSharp::<x.y.z>"
+          ${commonVersions}
+        '';
+
+        rust = mkShell "rust" (rustToolchain ++ lspRust) hxCompletions ''
+          export CARGO_HOME=${devDir}/.cargo
+          export PATH=${devDir}/.cargo/bin:$PATH
+          mkdir -p ${devDir}/.cargo
+
+          echo "Rustc:          $(rustc --version)"
+          echo "Cargo:          $(cargo --version)"
+          echo "Rust-analyzer:  $(rust-analyzer --version)"
+          echo "Clippy:         $(cargo-clippy --version)"
+          echo "Rustfmt:        $(rustfmt --version)"
           ${commonVersions}
         '';
 
