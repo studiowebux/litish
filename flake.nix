@@ -219,7 +219,12 @@
 
       mkPrompt = name: completions: ''
         export SHELL=${pkgs.zsh}/bin/zsh
-        export ZDOTDIR=$(mktemp -d)
+        # $$ (this shell's PID) guarantees a unique dir even when TMPDIR
+        # itself is reused across separate `nix develop` invocations
+        # (observed with the macOS single-user nix-daemon build slot).
+        export ZDOTDIR="''${TMPDIR:-/tmp}/litish-zdotdir-$$"
+        rm -rf "$ZDOTDIR"
+        mkdir -p "$ZDOTDIR"
 
         cat > $ZDOTDIR/.zshrc << 'EOF'
         # XDG — keep everything on the volume
