@@ -38,7 +38,7 @@
       terraform-ls = pkgs.callPackage ./pkgs/terraform-ls.nix { };
       helm-ls = pkgs.callPackage ./pkgs/helm-ls.nix { };
       ols = pkgs.callPackage ./pkgs/ols.nix { };
-      omnisharp = pkgs.callPackage ./pkgs/omnisharp.nix { };
+      omnisharp = pkgs.omnisharp-roslyn;
       dotnet = pkgs.dotnetCorePackages.combinePackages [
         pkgs.dotnetCorePackages.sdk_10_0-bin
         pkgs.dotnetCorePackages.aspnetcore_10_0-bin
