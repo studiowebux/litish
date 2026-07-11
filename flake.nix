@@ -227,6 +227,10 @@
         mkdir -p "$ZDOTDIR"
 
         cat > $ZDOTDIR/.zshrc << 'EOF'
+        # Clean up this shell's own ZDOTDIR when it exits, so
+        # litish-zdotdir-* dirs don't pile up in TMPDIR.
+        trap 'rm -rf "$ZDOTDIR"' EXIT
+
         # XDG — keep everything on the volume
         export CLAUDE_CONFIG_DIR=${devDir}/.claude
         export XDG_CONFIG_HOME=${devDir}/.config

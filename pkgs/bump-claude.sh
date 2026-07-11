@@ -44,9 +44,11 @@ SRI="$(nix hash convert --hash-algo sha256 --to sri "$NIX32" 2>/dev/null \
 
 echo "New hash: ${SRI}"
 
-# Rewrite version (first match) and the claude hash line.
+# Rewrite version and the claude hash line.
+# (BSD sed doesn't support GNU's "0,/regex/" range address, so match the
+# specific `version = "...";` line instead of relying on first-match-only.)
 sed_i -E \
-  -e "0,/version[[:space:]]*=.*/s//version = \"${VERSION}\";/" \
+  -e "s|version[[:space:]]*=[[:space:]]*\"[^\"]*\";|version = \"${VERSION}\";|" \
   -e "s|hash[[:space:]]*=[[:space:]]*\"sha256-[^\"]*\";|hash = \"${SRI}\";|" \
   "$NIX_FILE"
 
