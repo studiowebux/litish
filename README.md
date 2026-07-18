@@ -1,14 +1,3 @@
----
-title: Litish
-project: litish
-tags: [nix, devshell, macos]
-status: done
-version: 1.1.1
-author: Claude
-updated_by: Claude
-updated: 2026-07-18
----
-
 # Litish
 
 **Lite-ish** — a development environment that aims to be lightweight but still packs everything you need. Isolated, reproducible, and entirely off your home directory.
