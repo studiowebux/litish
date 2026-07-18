@@ -78,6 +78,7 @@
         pkgs.vscode-langservers-extracted # json, html, css lsp
         pkgs.taplo # toml lsp + formatter
         pkgs.jq
+        pkgs.lldb
         restcli
         timeago
         bujotui
@@ -219,18 +220,14 @@
 
       mkPrompt = name: completions: ''
         export SHELL=${pkgs.zsh}/bin/zsh
-        # $$ (this shell's PID) guarantees a unique dir even when TMPDIR
-        # itself is reused across separate `nix develop` invocations
-        # (observed with the macOS single-user nix-daemon build slot).
-        export ZDOTDIR="''${TMPDIR:-/tmp}/litish-zdotdir-$$"
-        rm -rf "$ZDOTDIR"
+        # Shared per-environment (not per-PID): concurrent shells for the same
+        # environment reuse this dir, so macOS Terminal/iTerm's own exit hook
+        # (which writes session state under $ZDOTDIR/.zsh_sessions) never
+        # races against a delete-on-exit trap.
+        export ZDOTDIR="''${TMPDIR:-/tmp}/litish-zdotdir-${name}"
         mkdir -p "$ZDOTDIR"
 
         cat > $ZDOTDIR/.zshrc << 'EOF'
-        # Clean up this shell's own ZDOTDIR when it exits, so
-        # litish-zdotdir-* dirs don't pile up in TMPDIR.
-        trap 'rm -rf "$ZDOTDIR"' EXIT
-
         # XDG — keep everything on the volume
         export CLAUDE_CONFIG_DIR=${devDir}/.claude
         export XDG_CONFIG_HOME=${devDir}/.config
@@ -563,6 +560,24 @@
           echo "Odin: $(odin version)"
           ${commonVersions}
         '';
+
+        swift =
+          mkShell "swift"
+            [ ]
+            hxCompletions
+            ''
+              # Xcode's Swift toolchain is proprietary and not packaged in
+              # nixpkgs, so point straight at the system install rather than
+              # relying on xcode-select (which can drift, e.g. onto nixpkgs'
+              # apple-sdk stub).
+              export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
+              export PATH="$DEVELOPER_DIR/Toolchains/XcodeDefault.xctoolchain/usr/bin:$DEVELOPER_DIR/usr/bin:$PATH"
+
+              echo "Swift:        $(swift --version 2>&1 | head -1)"
+              echo "Xcodebuild:   $(xcodebuild -version | head -1)"
+              echo "Sourcekit-lsp: $(sourcekit-lsp --version 2>&1 | head -1)"
+              ${commonVersions}
+            '';
 
         python =
           mkShell "python"
