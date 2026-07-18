@@ -3,10 +3,10 @@ title: Litish
 project: litish
 tags: [nix, devshell, macos]
 status: done
-version: 1.1.0
+version: 1.1.1
 author: Claude
 updated_by: Claude
-updated: 2026-07-10
+updated: 2026-07-18
 ---
 
 # Litish
@@ -118,6 +118,7 @@ litish ai       # AI/ML — Python with pyright and ruff
 litish node     # NodeJS
 litish dotnet   # .NET — SDK + ASP.NET Core runtime, OmniSharp LSP
 litish rust     # Rust
+litish swift    # Swift — Xcode toolchain
 litish hw       # Linux tools
 litish db       # Postgres, Mongo, redis
 litish net      # Network analysis — nmap, mtr, tcpdump, etc.
@@ -131,14 +132,17 @@ The first run downloads and builds everything. Subsequent runs are instant thank
 
 ## Shells
 
+Every shell includes `helix`, `git`, `lazygit`, `tmux`, `gh`, `lldb`, and other common editing/debugging tools (see `commonPackages` in `flake.nix`).
+
 | Shell  | Purpose               | Key tools                                                                                       |
 | ------ | --------------------- | ----------------------------------------------------------------------------------------------- |
 | `all`  | Everything (default)  | All tools below combined                                                                        |
 | `hx`   | General editing       | Helix + all LSP servers                                                                         |
+| `swift` | Swift development    | Xcode's Swift toolchain, sourcekit-lsp (points at system Xcode.app, not packaged in nixpkgs)     |
 | `deno` | TypeScript/JavaScript | Deno, TypeScript LSP                                                                            |
 | `go`   | Go development        | Go, gopls, staticcheck, gosec, govulncheck                                                      |
 | `ops`  | Infrastructure        | Terraform, kubectl, cilium, hubble, kubeseal, kustomize, k9s, flux, helm, ansible, sshtui, postgresql, mongodb-tools, mongosh, redis, podman, podman-compose, awscli2 |
-| `game` | Game development      | Odin compiler, ols (Odin), omnisharp-roslyn (C#), lua-language-server                            |
+| `game` | Game development      | Odin compiler, ols (Odin), omnisharp-roslyn (C#), lua-language-server, emscripten (emcc)          |
 | `ai`   | AI/ML                 | Python 3, pyright, ruff                                                                         |
 | `python` | Multi-version Python | Python 3.10, 3.11, 3.12                                                                       |
 | `net`  | Network analysis      | nmap, mtr, socat, tcpdump, curl, wget, dig, whois, netcat-gnu, openssl, bandwhich, aria2, wireguard-tools, sshtui, proxytui |

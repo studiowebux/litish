@@ -386,6 +386,7 @@
                 pkgs.nodejs_24
                 dotnet
                 pkgs.icu
+                pkgs.emscripten
               ]
               ++ lspTs
               ++ lspPython
@@ -452,6 +453,7 @@
               echo "Rust-analyzer:  $(rust-analyzer --version)"
               echo "Clippy:         $(cargo-clippy --version)"
               echo "Rustfmt:        $(rustfmt --version)"
+              echo "Emcc:           $(emcc --version | head -1)"
 
               mkdir -p ${devDir}/.config/aws
 
@@ -556,8 +558,9 @@
               ${commonVersions}
             '';
 
-        game = mkShell "game" ([ odin ] ++ lspCsharp ++ lspOdin ++ lspLua) hxCompletions ''
+        game = mkShell "game" ([ odin pkgs.emscripten ] ++ lspCsharp ++ lspOdin ++ lspLua) hxCompletions ''
           echo "Odin: $(odin version)"
+          echo "Emcc: $(emcc --version | head -1)"
           ${commonVersions}
         '';
 
