@@ -203,21 +203,6 @@
         ${awsCompletion}
       '';
 
-      commonVersions = ''
-        echo "Helix:   $(hx --version)"
-        echo "Git:     $(git --version)"
-        echo "Cerveau: $(cerveau version)"
-        echo "Claude:  $(claude --version)"
-        echo "Lspmcp:  $(lspmcp -version)"
-        echo "Bujotui: $(bujotui version)"
-        echo "Restcli:     $(restcli --version)"
-        echo "Tea:         $(tea --version)"
-        echo "Woodpecker:  $(woodpecker-cli --version)"
-        echo "Python:      $(python3 --version)"
-        echo "Pg_format:   $(pg_format --version 2>&1 | head -1)"
-        echo "Tmux:        $(tmux -V)"
-      '';
-
       mkPrompt = name: completions: ''
         export SHELL=${pkgs.zsh}/bin/zsh
         # Shared per-environment (not per-PID): concurrent shells for the same
@@ -418,59 +403,20 @@
               export PATH=${devDir}/.cargo/bin:$PATH
               mkdir -p ${devDir}/.cargo
 
-              echo "Deno:      $(deno --version | head -1)"
-              echo "Go:        $(go version)"
-              echo "Gopls:     $(gopls version)"
-              echo "Terraform: $(terraform version | head -1)"
-              echo "Kubectl: $(kubectl version --client --short 2>/dev/null || kubectl version --client)"
-              echo "Hubble: $(hubble version)"
-              echo "Flux: $(flux --version)"
-              echo "Helm: $(helm version --short)"
-              echo "Ansible:    $(ansible --version | head -1)"
-              echo "Sshtui:     $(sshtui --version)"
-              echo "Minimaldoc: $(minimaldoc --version)"
-              echo "Proxytui:   $(proxytui -version)"
-              echo "Mongodump:  $(mongodump --version 2>&1 | head -1)"
-              echo "Mongosh:    $(mongosh --version)"
-              echo "Redis-cli:  $(redis-cli --version)"
-              echo "Psql:           $(psql --version)"
-              echo "Podman:         $(podman --version)"
-              echo "Podman-compose: $(podman-compose -v)"
-              echo "Spacetime:      $(spacetime version)"
-              echo "Odin:           $(odin version)"
-              echo "K9s:            $(k9s version --short)"
-              echo "AWS CLI:        $(aws --version)"
-              echo "Python 3.10:    $(python3.10 --version)"
-              echo "Python 3.11:    $(python3.11 --version)"
-              echo "Python 3.12:    $(python3.12 --version)"
-              echo "Dos2unix:       $(dos2unix --version 2>&1 | head -1)"
-              echo "Wg:             $(wg --version)"
-              echo "Smartctl:       $(smartctl --version | head -1)"
-              echo "Node:           $(node --version)"
-              echo "Dotnet:         $(dotnet --version)"
-              echo "Rustc:          $(rustc --version)"
-              echo "Cargo:          $(cargo --version)"
-              echo "Rust-analyzer:  $(rust-analyzer --version)"
-              echo "Clippy:         $(cargo-clippy --version)"
-              echo "Rustfmt:        $(rustfmt --version)"
-              echo "Emcc:           $(emcc --version | head -1)"
-
               mkdir -p ${devDir}/.config/aws
-
-              ${commonVersions}
             '';
 
-        hx =
-          mkShell "hx" ([ ] ++ lspTs ++ lspPython ++ lspOps ++ lspOdin ++ lspCsharp ++ lspLua) hxCompletions
-            ''
-              ${commonVersions}
-            '';
+        hx = mkShell "hx" (
+          [ ] ++ lspTs ++ lspPython ++ lspOps ++ lspOdin ++ lspCsharp ++ lspLua
+        ) hxCompletions "";
 
-        deno = mkShell "deno" ([ deno spacetimedb ] ++ lspTs) denoCompletions ''
-          echo "Deno:      $(deno --version)"
-          echo "Spacetime: $(spacetime version)"
-          ${commonVersions}
-        '';
+        deno = mkShell "deno" (
+          [
+            deno
+            spacetimedb
+          ]
+          ++ lspTs
+        ) denoCompletions "";
 
         go = mkShell "go" [ go gopls pkgs.postgresql ] goCompletions ''
           export GOROOT=${go}
@@ -494,15 +440,6 @@
             echo "installing govulncheck..."
             go install golang.org/x/vuln/cmd/govulncheck@latest
           fi
-
-          echo "Staticcheck: $(staticcheck --version)"
-          echo "Gosec:       $(gosec --version)"
-          echo "Govulncheck: $(govulncheck --version)"
-
-          echo "Go:    $(go version)"
-          echo "Gopls: $(gopls version)"
-          echo "Psql:  $(psql --version)"
-          ${commonVersions}
         '';
         ops =
           mkShell "ops"
@@ -535,166 +472,93 @@
               mkdir -p ${devDir}/.kube
               mkdir -p ${devDir}/.terraform/plugin-cache
               mkdir -p ${devDir}/.config/aws
-              echo "Terraform: $(terraform version | head -1)"
-              echo "Kubectl:   $(kubectl version --client --short 2>/dev/null || kubectl version --client)"
-              echo "Cilium:    $(cilium version)"
-              echo "Hubble:    $(hubble version)"
-              echo "Kubeseal:  $(kubeseal --version)"
-              echo "Kustomize: $(kustomize version)"
-              echo "K9s:       $(k9s version --short)"
-              echo "Flux:      $(flux --version)"
-              echo "Helm:      $(helm version --short)"
-              echo "Ansible:   $(ansible --version | head -1)"
-              echo "Sshtui:    $(sshtui --version)"
-              echo "Mongodump: $(mongodump --version 2>&1 | head -1)"
-              echo "Mongosh:        $(mongosh --version)"
-              echo "Redis-cli:      $(redis-cli --version)"
-              echo "Psql:           $(psql --version)"
-              echo "Podman:         $(podman --version)"
-              echo "Podman-compose: $(podman-compose -v)"
-              echo "AWS CLI:        $(aws --version)"
-              echo "Spacetime:      $(spacetime version)"
-
-              ${commonVersions}
             '';
 
-        game = mkShell "game" ([ odin pkgs.emscripten ] ++ lspCsharp ++ lspOdin ++ lspLua) hxCompletions ''
-          echo "Odin: $(odin version)"
-          echo "Emcc: $(emcc --version | head -1)"
-          ${commonVersions}
+        game = mkShell "game" (
+          [
+            odin
+            pkgs.emscripten
+          ]
+          ++ lspCsharp
+          ++ lspOdin
+          ++ lspLua
+        ) hxCompletions "";
+
+        swift = mkShell "swift" [ ] hxCompletions ''
+          # Xcode's Swift toolchain is proprietary and not packaged in
+          # nixpkgs, so point straight at the system install rather than
+          # relying on xcode-select (which can drift, e.g. onto nixpkgs'
+          # apple-sdk stub).
+          export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
+          export PATH="$DEVELOPER_DIR/Toolchains/XcodeDefault.xctoolchain/usr/bin:$DEVELOPER_DIR/usr/bin:$PATH"
         '';
 
-        swift =
-          mkShell "swift"
-            [ ]
+        python = mkShell "python" ([
+          pkgs.python310
+          pkgs.python311
+          pkgs.python312
+        ]) hxCompletions "";
+
+        keyboard = mkShell "keyboard" ([
+          pkgs.qmk
+          pkgs.dos2unix
+        ]) hxCompletions "";
+
+        net = mkShell "net" [
+          sshtui
+          proxytui
+          pkgs.nmap
+          pkgs.mtr
+          pkgs.socat
+          pkgs.tcpdump
+          pkgs.curl
+          pkgs.wget
+          pkgs.dig
+          pkgs.whois
+          pkgs.netcat-gnu
+          pkgs.openssl
+          pkgs.jq
+          pkgs.bandwhich
+          pkgs.aria2
+          pkgs.wireguard-tools
+        ] hxCompletions "";
+
+        ai = mkShell "ai" ([ pkgs.python3 ] ++ lspPython) hxCompletions "";
+
+        hw = mkShell "hw" [ pkgs.smartmontools ] hxCompletions "";
+
+        db = mkShell "db" [
+          pkgs.redis
+          pkgs.postgresql
+          pkgs.mongodb-tools
+          pkgs.mongosh
+          spacetimedb
+        ] hxCompletions "";
+
+        dotnet =
+          mkShell "dotnet"
+            (
+              [
+                dotnet
+                pkgs.icu
+              ]
+              ++ lspCsharp
+            )
             hxCompletions
             ''
-              # Xcode's Swift toolchain is proprietary and not packaged in
-              # nixpkgs, so point straight at the system install rather than
-              # relying on xcode-select (which can drift, e.g. onto nixpkgs'
-              # apple-sdk stub).
-              export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
-              export PATH="$DEVELOPER_DIR/Toolchains/XcodeDefault.xctoolchain/usr/bin:$DEVELOPER_DIR/usr/bin:$PATH"
-
-              echo "Swift:        $(swift --version 2>&1 | head -1)"
-              echo "Xcodebuild:   $(xcodebuild -version | head -1)"
-              echo "Sourcekit-lsp: $(sourcekit-lsp --version 2>&1 | head -1)"
-              ${commonVersions}
+              export DOTNET_ROOT=${dotnet}
+              export DOTNET_CLI_TELEMETRY_OPTOUT=1
+              export DOTNET_NOLOGO=1
+              export NUGET_PACKAGES=${devDir}/.nuget/packages
+              export DOTNET_CLI_HOME=${devDir}
+              export PATH=${devDir}/.dotnet/tools:$PATH
+              mkdir -p ${devDir}/.nuget/packages ${devDir}/.dotnet/tools
             '';
-
-        python =
-          mkShell "python"
-            ([
-              pkgs.python310
-              pkgs.python311
-              pkgs.python312
-            ])
-            hxCompletions
-            ''
-              echo "Python 3.10: $(python3.10 --version)"
-              echo "Python 3.11: $(python3.11 --version)"
-              echo "Python 3.12: $(python3.12 --version)"
-              ${commonVersions}
-            '';
-
-        keyboard =
-          mkShell "keyboard"
-            ([
-              pkgs.qmk
-              pkgs.dos2unix
-            ])
-            hxCompletions
-            ''
-              ${commonVersions}
-            '';
-
-        net =
-          mkShell "net"
-            [
-              sshtui
-              proxytui
-              pkgs.nmap
-              pkgs.mtr
-              pkgs.socat
-              pkgs.tcpdump
-              pkgs.curl
-              pkgs.wget
-              pkgs.dig
-              pkgs.whois
-              pkgs.netcat-gnu
-              pkgs.openssl
-              pkgs.jq
-              pkgs.bandwhich
-              pkgs.aria2
-              pkgs.wireguard-tools
-            ]
-            hxCompletions
-            ''
-              echo "Nmap:      $(nmap --version | head -1)"
-              echo "Mtr:       $(mtr --version)"
-              echo "Socat:     $(socat -V | head -2 | tail -1)"
-              echo "Tcpdump:   $(tcpdump --version 2>&1 | head -1)"
-              echo "Curl:      $(curl --version | head -1)"
-              echo "Wget:      $(wget --version | head -1)"
-              echo "Dig:       $(dig -v 2>&1 | head -1)"
-              echo "Whois:     $(whois --version 2>&1 | head -1 || echo "installed")"
-              echo "Netcat:    $(nc --version 2>&1 | head -1 || echo "installed")"
-              echo "OpenSSL:   $(openssl version)"
-              echo "Jq:        $(jq --version)"
-              echo "Bandwhich: $(bandwhich --version)"
-              echo "Aria2:     $(aria2c --version | head -1)"
-              echo "Wg:        $(wg --version)"
-              echo "Sshtui:   $(sshtui --version)"
-              echo "Proxytui: $(proxytui -version)"
-              ${commonVersions}
-            '';
-
-        ai = mkShell "ai" ([ pkgs.python3 ] ++ lspPython) hxCompletions ''
-          echo "Python:  $(python3 --version)"
-          ${commonVersions}
-        '';
-
-        hw = mkShell "hw" [ pkgs.smartmontools ] hxCompletions ''
-          echo "Smartctl: $(smartctl --version | head -1)"
-          ${commonVersions}
-        '';
-
-        db = mkShell "db" [ pkgs.redis pkgs.postgresql pkgs.mongodb-tools pkgs.mongosh spacetimedb ] hxCompletions ''
-          echo "Redis-cli:   $(redis-cli --version)"
-          echo "Psql:        $(psql --version)"
-          echo "Mongodump:   $(mongodump --version 2>&1 | head -1)"
-          echo "Mongosh:     $(mongosh --version)"
-          echo "Spacetime:   $(spacetime version)"
-          ${commonVersions}
-        '';
-
-        dotnet = mkShell "dotnet" ([ dotnet pkgs.icu ] ++ lspCsharp) hxCompletions ''
-          export DOTNET_ROOT=${dotnet}
-          export DOTNET_CLI_TELEMETRY_OPTOUT=1
-          export DOTNET_NOLOGO=1
-          export NUGET_PACKAGES=${devDir}/.nuget/packages
-          export DOTNET_CLI_HOME=${devDir}
-          export PATH=${devDir}/.dotnet/tools:$PATH
-          mkdir -p ${devDir}/.nuget/packages ${devDir}/.dotnet/tools
-
-          echo "Dotnet: $(dotnet --version)"
-          echo "Note: MonoGame tooling (mgcb, project templates) isn't packaged in nixpkgs."
-          echo "      Install once with: dotnet tool install --global dotnet-mgcb --version <x.y.z>"
-          echo "                         dotnet new install MonoGame.Templates.CSharp::<x.y.z>"
-          ${commonVersions}
-        '';
 
         rust = mkShell "rust" (rustToolchain ++ lspRust) hxCompletions ''
           export CARGO_HOME=${devDir}/.cargo
           export PATH=${devDir}/.cargo/bin:$PATH
           mkdir -p ${devDir}/.cargo
-
-          echo "Rustc:          $(rustc --version)"
-          echo "Cargo:          $(cargo --version)"
-          echo "Rust-analyzer:  $(rust-analyzer --version)"
-          echo "Clippy:         $(cargo-clippy --version)"
-          echo "Rustfmt:        $(rustfmt --version)"
-          ${commonVersions}
         '';
 
         node = mkShell "node" ([ pkgs.nodejs_24 ] ++ lspTs) nodeCompletions ''
@@ -711,10 +575,6 @@
           export ASTRO_TELEMETRY_DISABLED=1
           export NUXT_TELEMETRY_DISABLED=1
           export TURBO_TELEMETRY_DISABLED=1
-
-          echo "Node: $(node --version)"
-          echo "Npm:  $(npm --version)"
-          ${commonVersions}
         '';
       };
     };
