@@ -87,6 +87,7 @@
         claude
         pkgs.python3
         lspmcp
+        pkgs.opencode
       ];
 
       # Specialized LSP groups
