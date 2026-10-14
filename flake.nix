@@ -3,10 +3,11 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.11-darwin";
+    pi.url = "github:earendil-works/pi/stable";
   };
 
   outputs =
-    { self, nixpkgs }:
+    { self, nixpkgs, pi }:
     let
       system = "aarch64-darwin";
 
@@ -88,6 +89,7 @@
         pkgs.python3
         lspmcp
         pkgs.opencode
+        pi.packages.${system}.pi
       ];
 
       # Specialized LSP groups
