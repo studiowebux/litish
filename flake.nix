@@ -49,11 +49,8 @@
       sshtui = pkgs.callPackage ./pkgs/sshtui.nix { };
       minimaldoc = pkgs.callPackage ./pkgs/minimaldoc.nix { };
       restcli = pkgs.callPackage ./pkgs/restcli.nix { };
-      proxytui = pkgs.callPackage ./pkgs/proxytui.nix { };
       timeago = pkgs.callPackage ./pkgs/timeago.nix { };
       lspmcp = pkgs.callPackage ./pkgs/lspmcp.nix { };
-      bujotui = pkgs.callPackage ./pkgs/bujotui.nix { };
-      bujotui-mcp = pkgs.callPackage ./pkgs/bujotui-mcp.nix { };
       spacetimedb = pkgs.callPackage ./pkgs/spacetimedb.nix { };
       tea = pkgs.callPackage ./pkgs/tea.nix { };
       woodpecker-cli = pkgs.callPackage ./pkgs/woodpecker-cli.nix { };
@@ -84,8 +81,6 @@
         pkgs.lldb
         restcli
         timeago
-        bujotui
-        bujotui-mcp
         cerveau
         claude
         pkgs.python3
@@ -240,8 +235,6 @@
         export KUBECONFIG=${devDir}/.kube/config
         export KUBECACHEDIR=${devDir}/.kube/cache
         export CERVEAU_HOME=${devDir}/cerveau
-        export BUJOTUI_CONFIG_DIR=${devDir}/.config/bujotui
-        export BUJOTUI_DATA_DIR=${devDir}/.data/bujotui
         export ANSIBLE_HOME=${devDir}/.ansible
         export OMNISHARPHOME=${devDir}/.omnisharp
 
@@ -343,7 +336,6 @@
                 pkgs.ansible
                 sshtui
                 minimaldoc
-                proxytui
                 pkgs.nmap
                 pkgs.mtr
                 pkgs.socat
@@ -511,7 +503,6 @@
 
         net = mkShell "net" [
           sshtui
-          proxytui
           pkgs.nmap
           pkgs.mtr
           pkgs.socat
