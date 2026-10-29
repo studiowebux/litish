@@ -2,7 +2,7 @@
   description = "Isolated development environment — all tools, caches, and configs stay on a dedicated encrypted volume";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.11-darwin";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin";
     pi.url = "github:earendil-works/pi/stable";
   };
 
