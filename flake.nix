@@ -3,15 +3,17 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin";
+    nixpkgs25.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
     pi.url = "github:earendil-works/pi/stable";
   };
 
   outputs =
-    { self, nixpkgs, pi }:
+    { self, nixpkgs, nixpkgs25, pi }:
     let
       system = "aarch64-darwin";
 
       pkgs = nixpkgs.legacyPackages.${system};
+      pkgs25 = nixpkgs25.legacyPackages.${system};
 
       # Resolved at runtime (not eval time) so the published GitHub flake honors
       # each user's volume via $LITISH_DEV_DIR, falling back to the default when
@@ -364,7 +366,7 @@
                 odin
                 pkgs.k9s
                 pkgs.awscli2
-                pkgs.python310
+                pkgs25.python310
                 pkgs.python311
                 pkgs.python312
                 pkgs.qmk
@@ -497,7 +499,7 @@
         '';
 
         python = mkShell "python" ([
-          pkgs.python310
+          pkgs25.python310
           pkgs.python311
           pkgs.python312
         ]) hxCompletions "";
