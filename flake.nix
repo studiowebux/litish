@@ -73,8 +73,8 @@
         pkgs.zsh
         pkgs.nil # nix lsp
         pkgs.yaml-language-server # yaml lsp
-        pkgs.nodePackages.bash-language-server # bash lsp
-        pkgs.nodePackages.prettier # formatter
+        pkgs.bash-language-server # bash lsp
+        pkgs.prettier # formatter
         pkgs.pgformatter # sql formatter (pg_format)
         pkgs.vscode-langservers-extracted # json, html, css lsp
         pkgs.taplo # toml lsp + formatter
@@ -93,7 +93,7 @@
       ];
 
       # Specialized LSP groups
-      lspTs = [ pkgs.nodePackages.typescript-language-server ];
+      lspTs = [ pkgs.typescript-language-server ];
       lspPython = [
         pkgs.pyright
         pkgs.ruff
