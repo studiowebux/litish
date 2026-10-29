@@ -46,12 +46,9 @@
         pkgs.dotnetCorePackages.sdk_10_0-bin
         pkgs.dotnetCorePackages.aspnetcore_10_0-bin
       ];
-      sshtui = pkgs.callPackage ./pkgs/sshtui.nix { };
       minimaldoc = pkgs.callPackage ./pkgs/minimaldoc.nix { };
       restcli = pkgs.callPackage ./pkgs/restcli.nix { };
       timeago = pkgs.callPackage ./pkgs/timeago.nix { };
-      lspmcp = pkgs.callPackage ./pkgs/lspmcp.nix { };
-      spacetimedb = pkgs.callPackage ./pkgs/spacetimedb.nix { };
       tea = pkgs.callPackage ./pkgs/tea.nix { };
       woodpecker-cli = pkgs.callPackage ./pkgs/woodpecker-cli.nix { };
       odin = pkgs.callPackage ./pkgs/odin.nix { };
@@ -79,12 +76,10 @@
         pkgs.taplo # toml lsp + formatter
         pkgs.jq
         pkgs.lldb
-        restcli
         timeago
         cerveau
         claude
         pkgs.python3
-        lspmcp
         pkgs.opencode
         pi.packages.${system}.pi
       ];
@@ -334,7 +329,6 @@
                 helm
                 terraform
                 pkgs.ansible
-                sshtui
                 minimaldoc
                 pkgs.nmap
                 pkgs.mtr
@@ -354,7 +348,6 @@
                 pkgs.postgresql
                 pkgs.podman-compose
                 pkgs.podman
-                spacetimedb
                 odin
                 pkgs.k9s
                 pkgs.awscli2
@@ -410,7 +403,6 @@
         deno = mkShell "deno" (
           [
             deno
-            spacetimedb
           ]
           ++ lspTs
         ) denoCompletions "";
@@ -452,7 +444,6 @@
                 terraform
                 pkgs.k9s
                 pkgs.ansible
-                sshtui
                 pkgs.mongodb-tools
                 pkgs.mongosh
                 pkgs.redis
@@ -460,7 +451,6 @@
                 pkgs.podman-compose
                 pkgs.podman
                 pkgs.awscli2
-                spacetimedb
               ]
               ++ lspOps
             )
@@ -502,7 +492,6 @@
         ]) hxCompletions "";
 
         net = mkShell "net" [
-          sshtui
           pkgs.nmap
           pkgs.mtr
           pkgs.socat
@@ -528,7 +517,6 @@
           pkgs.postgresql
           pkgs.mongodb-tools
           pkgs.mongosh
-          spacetimedb
         ] hxCompletions "";
 
         dotnet =
