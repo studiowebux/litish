@@ -71,7 +71,7 @@ build_expr() {
 let
   flake = builtins.getFlake (toString ${REPO_ROOT});
   pkgs  = flake.inputs.nixpkgs.legacyPackages.\${builtins.currentSystem};
-in pkgs.callPackage ${NIX_FILE} {}
+in pkgs.callPackage ${NIX_FILE} { go = pkgs.callPackage ${SCRIPT_DIR}/go.nix {}; }
 EOF
 }
 
