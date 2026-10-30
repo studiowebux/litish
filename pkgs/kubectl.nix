@@ -3,11 +3,11 @@
 
 stdenv.mkDerivation rec {
   pname   = "kubectl";
-  version = "1.36.2";
+  version = "1.37.2";
 
   src = fetchurl {
     url  = "https://dl.k8s.io/release/v${version}/bin/darwin/arm64/kubectl";
-    hash = "sha256-RAjIXIP9OjGtqlVb3zx6bIH3SxlEmpBgujGrkZJvAj0=";
+    hash = "sha256-VXAa8NUYFe4zXyQOSKzwlZw8IwF+0/qBbogMSpK65YE=";
   };
 
   dontUnpack = true;
