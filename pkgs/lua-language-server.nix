@@ -3,11 +3,11 @@
 
 stdenv.mkDerivation rec {
   pname   = "lua-language-server";
-  version = "3.18.2";
+  version = "3.19.2";
 
   src = fetchurl {
     url  = "https://github.com/LuaLS/lua-language-server/releases/download/${version}/lua-language-server-${version}-darwin-arm64.tar.gz";
-    hash = "sha256-zsmdcLH2EqzsShCnmgNmTjqgwinU2KWGyz+SjsN9UJ4=";
+    hash = "sha256-eRSVhDIKI71fzVvDH0ehl1rNikVgoOiQNrsQFvphaH8=";
   };
 
   sourceRoot = ".";

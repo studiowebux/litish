@@ -2,11 +2,11 @@
 
 stdenv.mkDerivation rec {
   pname = "tea";
-  version = "0.14.2";
+  version = "0.16.0";
 
   src = fetchurl {
     url = "https://gitea.com/gitea/tea/releases/download/v${version}/tea-${version}-darwin-arm64";
-    hash = "sha256-12IhN6o25EvwYy/tUGuAssiObvbyXzFPt2iCechzEQk=";
+    hash = "sha256-9/cPV9rBYW0X7cDQEEaWSCImQr80YuCcBbyiazjz39s=";
   };
 
   dontUnpack = true;

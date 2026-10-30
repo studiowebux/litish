@@ -3,11 +3,11 @@
 
 stdenv.mkDerivation rec {
   pname   = "ols";
-  version = "dev-2026-05";
+  version = "dev-2026-10";
 
   src = fetchzip {
     url  = "https://github.com/DanielGavin/ols/releases/download/${version}/ols-arm64-darwin.zip";
-    hash = "sha256-pwQz+wrRST/SlKhgyogJTOPlmu+3pZ9Kls1xTARb37A=";
+    hash = "sha256-TeSvasxtT4dXbvBMZUCXJowL/KLGRZnlQHcnVR98yxI=";
     stripRoot = false;
   };
 

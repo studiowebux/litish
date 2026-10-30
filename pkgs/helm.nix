@@ -3,11 +3,11 @@
 
 stdenv.mkDerivation rec {
   pname   = "helm";
-  version = "4.2.2";
+  version = "4.3.1";
 
   src = fetchurl {
     url  = "https://get.helm.sh/helm-v${version}-darwin-arm64.tar.gz";
-    hash = "sha256-VBCg2uPV2R9FZTsWEmDZMBqrxK6ArlCmYF1miEtt+Oo=";
+    hash = "sha256-a05hyM0n2Z5agB5j/yXdXHCzaHXCzWWdPpzmt2/CMZg=";
   };
 
   dontBuild  = true;

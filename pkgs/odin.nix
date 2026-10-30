@@ -5,23 +5,23 @@
   lib,
   stdenv,
   fetchFromGitHub,
-  llvmPackages_18,
+  llvmPackages,
   makeBinaryWrapper,
   which,
 }:
 
 let
-  llvm = llvmPackages_18;
+  llvm = llvmPackages;
 in
 stdenv.mkDerivation rec {
   pname   = "odin";
-  version = "dev-2026-06";
+  version = "dev-2026-10";
 
   src = fetchFromGitHub {
     owner  = "odin-lang";
     repo   = "Odin";
     rev    = version;
-    hash   = "sha256-Z2497J80j5OLiyhTumrsofNANnNrnDE6Z3UB1b/TVGg=";
+    hash   = "sha256-Y8Em52W3ntWXgnRiRAyhWv5Y6+3b/4bj2+TTIvtniYU=";
   };
 
   nativeBuildInputs = [
