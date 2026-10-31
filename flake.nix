@@ -23,7 +23,7 @@
       deno = pkgs.callPackage ./pkgs/deno.nix { };
       helix = pkgs.callPackage ./pkgs/helix.nix { };
       gh = pkgs.callPackage ./pkgs/gh.nix { };
-      gopls = pkgs.callPackage ./pkgs/gopls.nix { };
+      gopls = pkgs.callPackage ./pkgs/gopls.nix { inherit go; };
       go = pkgs.callPackage ./pkgs/go.nix { };
       cerveau = pkgs.callPackage ./pkgs/cerveau.nix { };
       claude = pkgs.callPackage ./pkgs/claude.nix { };
