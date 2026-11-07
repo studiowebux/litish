@@ -49,6 +49,7 @@
       minimaldoc = pkgs.callPackage ./pkgs/minimaldoc.nix { };
       timeago = pkgs.callPackage ./pkgs/timeago.nix { };
       gt = pkgs.callPackage ./pkgs/gt.nix { };
+      gitea-mcp = pkgs.callPackage ./pkgs/gitea-mcp.nix { };
       woodpecker-cli = pkgs.callPackage ./pkgs/woodpecker-cli.nix { };
       odin = pkgs.callPackage ./pkgs/odin.nix { };
 
@@ -63,6 +64,7 @@
         pkgs.yq-go
         gh
         gt
+        gitea-mcp
         woodpecker-cli
         pkgs.git
         pkgs.zsh

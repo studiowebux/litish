@@ -53,6 +53,7 @@ PKGS=(
   "minimaldoc:gh_latest studiowebux/minimaldoc"
   "timeago:gh_latest studiowebux/timeago"
   "gt:gt_latest"
+  "gitea-mcp:gitea_mcp_latest"
   "woodpecker-cli:gh_latest woodpecker-ci/woodpecker"
   "helix:gh_latest helix-editor/helix"
   "odin:odin_latest"
@@ -150,6 +151,11 @@ ols_latest() {
 
 gt_latest() {
   git_latest_tag https://gitea.com/gitea/cli | strip_v
+}
+
+# gitea-mcp (Gitea's MCP server) also lives on gitea.com, not GitHub.
+gitea_mcp_latest() {
+  git_latest_tag https://gitea.com/gitea/gitea-mcp | strip_v
 }
 
 odin_latest() {
