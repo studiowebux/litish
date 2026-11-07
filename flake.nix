@@ -47,9 +47,8 @@
         pkgs.dotnetCorePackages.aspnetcore_10_0-bin
       ];
       minimaldoc = pkgs.callPackage ./pkgs/minimaldoc.nix { };
-      restcli = pkgs.callPackage ./pkgs/restcli.nix { };
       timeago = pkgs.callPackage ./pkgs/timeago.nix { };
-      tea = pkgs.callPackage ./pkgs/tea.nix { };
+      gt = pkgs.callPackage ./pkgs/gt.nix { };
       woodpecker-cli = pkgs.callPackage ./pkgs/woodpecker-cli.nix { };
       odin = pkgs.callPackage ./pkgs/odin.nix { };
 
@@ -63,7 +62,7 @@
         pkgs.tmux
         pkgs.yq-go
         gh
-        tea
+        gt
         woodpecker-cli
         pkgs.git
         pkgs.zsh
@@ -110,35 +109,8 @@
 
       cerveauCompletion = "cerveau completion zsh > $COMP_DIR/_cerveau";
       ghCompletion = "gh completion -s zsh > $COMP_DIR/_gh";
-      # tea has no built-in completion generator; it's an urfave/cli app like
-      # woodpecker-cli, so drive its generic --generate-shell-completion flag.
-      teaCompletion = ''
-        cat > $COMP_DIR/_tea << 'TEA_COMPLETION_EOF'
-        #compdef tea
-        compdef _tea tea
-
-        _tea() {
-        	local -a opts
-        	local current
-        	current=''${words[-1]}
-        	if [[ "$current" == "-"* ]]; then
-        		opts=("''${(@f)$(''${words[@]:0:#words[@]-1} ''${current} --generate-shell-completion)}")
-        	else
-        		opts=("''${(@f)$(''${words[@]:0:#words[@]-1} --generate-shell-completion)}")
-        	fi
-
-        	if [[ "''${opts[1]}" != "" ]]; then
-        		_describe 'values' opts
-        	else
-        		_files
-        	fi
-        }
-
-        if [ "$funcstack[1]" = "_tea" ]; then
-        	_tea
-        fi
-        TEA_COMPLETION_EOF
-      '';
+      # gt (the Gitea CLI, successor to tea) ships a real completion generator.
+      gtCompletion = "gt completion zsh > $COMP_DIR/_gt";
       # woodpecker-cli's `completion zsh` output is broken upstream: it prints
       # a script that calls `--generate-shell-completion`, but the app never
       # sets EnableShellCompletion, so that flag isn't registered and every
@@ -159,33 +131,33 @@
 
       nodeCompletions = ''
         ${ghCompletion}
-        ${teaCompletion}
+        ${gtCompletion}
         ${cerveauCompletion}
         ${nodeCompletion}
       '';
 
       denoCompletions = ''
         ${ghCompletion}
-        ${teaCompletion}
+        ${gtCompletion}
         ${denoCompletion}
         ${cerveauCompletion}
       '';
 
       goCompletions = ''
         ${ghCompletion}
-        ${teaCompletion}
+        ${gtCompletion}
         ${cerveauCompletion}
       '';
 
       hxCompletions = ''
         ${ghCompletion}
-        ${teaCompletion}
+        ${gtCompletion}
         ${cerveauCompletion}
       '';
 
       opsCompletions = ''
         ${ghCompletion}
-        ${teaCompletion}
+        ${gtCompletion}
         ${cerveauCompletion}
         ${denoCompletion}
         ${kubectlCompletion}

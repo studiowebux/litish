@@ -50,10 +50,10 @@ PKGS=(
   "terraform-ls:gh_latest hashicorp/terraform-ls"
   "helm-ls:gh_latest mrjosh/helm-ls"
   "ols:ols_latest"
-  "omnisharp:gh_latest OmniSharp/omnisharp-roslyn"
   "minimaldoc:gh_latest studiowebux/minimaldoc"
   "timeago:gh_latest studiowebux/timeago"
-  "tea:tea_latest"
+  "gt:gt_latest"
+  "woodpecker-cli:gh_latest woodpecker-ci/woodpecker"
   "helix:gh_latest helix-editor/helix"
   "odin:odin_latest"
 )
@@ -148,8 +148,8 @@ ols_latest() {
   git_latest_tag https://github.com/DanielGavin/ols '^dev-[0-9]'
 }
 
-tea_latest() {
-  git_latest_tag https://gitea.com/gitea/tea | strip_v
+gt_latest() {
+  git_latest_tag https://gitea.com/gitea/cli | strip_v
 }
 
 odin_latest() {
