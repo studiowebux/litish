@@ -3,11 +3,11 @@
 
 stdenv.mkDerivation rec {
   pname   = "woodpecker-cli";
-  version = "3.16.0";
+  version = "3.20.1";
 
   src = fetchurl {
     url  = "https://github.com/woodpecker-ci/woodpecker/releases/download/v${version}/woodpecker-cli_darwin_arm64.tar.gz";
-    hash = "sha256-ZYI+yGL0Jp7wCzcEd0toA0w7RydxxKJSGqFit5ikA84=";
+    hash = "sha256-Jya/mVj/EzRxIB48bWZ5s0bX07lPGW4MsLMvDnF9F6k=";
   };
 
   dontBuild  = true;

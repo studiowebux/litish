@@ -15,13 +15,13 @@ let
 in
 stdenv.mkDerivation rec {
   pname   = "odin";
-  version = "dev-2026-10";
+  version = "dev-2026-11";
 
   src = fetchFromGitHub {
     owner  = "odin-lang";
     repo   = "Odin";
     rev    = version;
-    hash   = "sha256-Y8Em52W3ntWXgnRiRAyhWv5Y6+3b/4bj2+TTIvtniYU=";
+    hash   = "sha256-626+yeBVtfY3Q7AzOY5vtSHSe8mvVDruC2RawzUu+eg=";
   };
 
   nativeBuildInputs = [
