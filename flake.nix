@@ -211,6 +211,11 @@
         export NPM_CONFIG_CACHE=${devDir}/.cache/npm
         export NODE_REPL_HISTORY=${devDir}/.node_repl_history
 
+        # Playwright browsers — keep the ms-playwright cache on the volume
+        # instead of ~/Library/Caches/ms-playwright. Populate once with:
+        #   npx @playwright/mcp install-browser firefox
+        export PLAYWRIGHT_BROWSERS_PATH=${devDir}/.cache/ms-playwright
+
         # Helm
         export HELM_CONFIG_HOME=${devDir}/.config/helm
         export HELM_CACHE_HOME=${devDir}/.cache/helm
